@@ -12,18 +12,26 @@ function Login() {
         console.log("successfully submitted");
     }
 
+    const handleClick = () => {
+        console.log("clicked");
+    }
+
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="email">Email</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" placeholder="your email" />
-                <label htmlFor="password">Password</label>
-                <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" placeholder="your password" />
-                <button type="submit">Login</button>
-            </form>
-            <Link to="/signup"> 
-                <button>Don't have an account? Sign up</button>
-            </Link>
+            <div class="grid justify-items-center mt-15">
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="email">Email</label>
+                    <input class="block" value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" placeholder="your email" />
+                    <br />
+                    <label htmlFor="password">Password</label>
+                    <input class="block" value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" placeholder="your password" />
+                    <br />
+                    <button class="cursor-pointer hover:bg-gray-200" onClick={handleClick}>Login</button>
+                </form>
+                <Link to="/signup"> 
+                    <button>Don't have an account? Sign up</button>
+                </Link>
+            </div>
         </div>
     )
 }
