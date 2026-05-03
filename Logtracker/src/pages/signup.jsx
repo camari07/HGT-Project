@@ -9,9 +9,30 @@ function Signup() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("successfully submitted");
+        
+        const response = await fetch("http://127.0.0.1:8000/signup/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                password: password,
+            })
+        })
+
+        const data = await response.json();
+        console.log(data);
+
+        if (response.ok) {
+            console.log("Signup successful:", data);
+            navigate("/login");
+        } else {
+            console.error("Signup failed:", data);
+        }
     }
 
     return (
@@ -24,8 +45,8 @@ function Signup() {
                     <input class="block" value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
                     <label htmlFor="password">Password</label>
                     <input class="block" value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
-                    <label htmlFor="confirm_password">Confirm Password</label>
-                    <input class="block" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirm Password" />
+                    {/* <label htmlFor="confirm_password">Confirm Password</label> */}
+                    {/* <input class="block" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirm Password" /> */}
                     <button type="submit">Sign Up</button>
                 </form>
                 <Link to="/login">

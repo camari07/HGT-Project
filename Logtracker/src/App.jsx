@@ -10,26 +10,20 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css'
 
 function App() {
- 
+  const [isloggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <>
+ 
     <Router>
       <Routes>
         <Route path="/" element={<Layout><Home /></Layout>} />
-      </Routes>
-    </Router>
-    <Router>
-      <Routes>
         <Route path="/login" element={<Layout><Login /></Layout>} />
         <Route path="/signup" element={<Layout><Signup /></Layout>} />
-      </Routes>
-    </Router>
-    <Router>
-      <Routes>
         <Route path="/irrigation" element={<Layout><Irrigation /></Layout>} />
       </Routes>
     </Router>
+
     </>
   )
 }

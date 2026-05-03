@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
-from backend.posts.models import Token
-from backend.posts.models import User
+from ..models import Irrigation, Token
+from ..models import User
 
 class TokenSerializer(ModelSerializer):
     class Meta:
@@ -11,3 +11,8 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "password", "email"]
+
+class IrrigationSerializer(ModelSerializer):
+    class Meta:
+        model = Irrigation
+        fields = ["id", "field_name", "water_amount", "timestamp"]

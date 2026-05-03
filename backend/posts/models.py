@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 
 class Token(models.Model):
@@ -18,4 +19,13 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+    
+class Irrigation(models.Model):
+    id = models.AutoField(primary_key=True)
+    field_name = models.CharField(max_length=255)
+    water_amount = models.FloatField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.field_name} - {self.water_amount}L at {self.timestamp}"
     
