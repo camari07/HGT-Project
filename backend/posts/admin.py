@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Token, User
+from .models import Farm, Irrigation
 
 # Register your models here.
-admin.site.register(Token)
-admin.site.register(User)
+admin.site.register(Irrigation)
+admin.site.register(Farm)
+

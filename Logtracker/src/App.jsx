@@ -3,6 +3,8 @@ import Layout from './layout/layout'
 import Home from './pages/home'
 import Login from './pages/login'
 import Signup from './pages/signup'
+import FarmActivity from './pages/farmact'
+import ProfilePage from './pages/profile'
 import React from "react";
 import Irrigation from './pages/irrigation'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -10,17 +12,19 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css'
 
 function App() {
-  const [isloggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
   return (
     <>
  
     <Router>
       <Routes>
-        <Route path="/" element={<Layout><Home /></Layout>} />
-        <Route path="/login" element={<Layout><Login /></Layout>} />
-        <Route path="/signup" element={<Layout><Signup /></Layout>} />
-        <Route path="/irrigation" element={<Layout><Irrigation /></Layout>} />
+        <Route path="/" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Home /></Layout>} />
+        <Route path="/login" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn }><Login setIsLoggedIn={setIsLoggedIn}/></Layout>} />
+        <Route path="/signup" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Signup /></Layout>} />
+        <Route path="/irrigation" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Irrigation /></Layout>} />
+        <Route path="/farm" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><FarmActivity /></Layout>} />
+        <Route path="/profile" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><ProfilePage /></Layout>} />
       </Routes>
     </Router>
 

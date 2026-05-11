@@ -3,12 +3,12 @@ import Header from "../components/header";
 import React from "react";
 import { useState } from "react";
 
-function Layout ({children}) {
+function Layout ({children, isLoggedIn, setIsLoggedIn}) {
     return(
         <div>
-            <Header />
+            <Header isLoggedIn={isLoggedIn} />
             {children}
-            <Footer />
+            <Footer isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         </div>
     )
 }

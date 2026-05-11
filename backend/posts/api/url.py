@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import SignupView, LoginView, Irrigation
-from .serializers import UserSerializer, TokenSerializer, IrrigationSerializer
+from .views import FarmView, SignupView, LoginView, IrrigationView
+from .serializers import UserSerializer, IrrigationSerializer
 from django.views.generic import RedirectView
 
 
@@ -12,14 +12,18 @@ loginrouter = DefaultRouter()
 loginrouter.register(r'login', LoginView, basename='login')
 
 irrigationrouter = DefaultRouter()
-irrigationrouter.register(r'irrigation', Irrigation, basename='irrigation')
+irrigationrouter.register(r'irrigation', IrrigationView, basename='irrigation')
+
+farmrouter = DefaultRouter()
+farmrouter.register(r'farm', FarmView, basename='farm')
 
 
 urlpatterns = [
     path('', RedirectView.as_view(url='/admin/', permanent=False)),
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
-    path('irrigation/', include(irrigationrouter.urls)),
+    path('', include(irrigationrouter.urls)),
+    path('', include(farmrouter.urls)),
 ] 
 
 

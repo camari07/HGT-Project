@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 
-function Login() {
+function Login({setIsLoggedIn}) {
     const [email, setEmail] = useState("");
     const navigate = useNavigate(); // for navigation after successful login
     const [password, setPassword] = useState("");
@@ -25,8 +25,9 @@ function Login() {
         const data = await response.json();
 
         if (response.ok) {
+            localStorage.setItem("token", data.token);
             console.log("login successful");
-            setIsLoggedIn(true)
+            setIsLoggedIn(true);
             navigate("/"); // navigate to home page after successful login
         } else {
             console.error("login failed:", data);
@@ -34,19 +35,21 @@ function Login() {
     }
 
     return (
-        <div>
-            <div class="grid justify-items-center mt-15">
+        <div className="grid place-items-center flex-1 h-screen">
+   
+            <div className="grid bg-green-100 p-10 rounded-lg">
+                
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="email">Email</label>
-                    <input class="block" value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" placeholder="your email" />
+                    <label className="text-justify " htmlFor="email">Email</label>
+                    <input className="block w-full p-2 border border-gray-300 rounded-md" value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="email" placeholder="your email" />
                     <br />
-                    <label htmlFor="password">Password</label>
-                    <input class="block" value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" placeholder="your password" />
+                    <label className="text-left  " htmlFor="password">Password</label>
+                    <input className="block w-full p-2 border border-gray-300 rounded-md" value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" placeholder="your password" />
                     <br />
-                    <button class="cursor-pointer hover:bg-gray-200" type="submit">Login</button>
+                    <button className=" bg-green-500 p-2 text-white rounded-md" type="submit">Login</button>
                 </form>
                 <Link to="/signup"> 
-                    <button>Don't have an account? Sign up</button>
+                    <button className="">Don't have an account? Sign up</button>
                 </Link>
             </div>
         </div>
