@@ -28,7 +28,7 @@ function Login({setIsLoggedIn}) {
             localStorage.setItem("token", data.token);
             console.log("login successful");
             setIsLoggedIn(true);
-            navigate("/"); // navigate to home page after successful login
+            navigate("/home"); // navigate to home page after successful login
         } else {
             console.error("login failed:", data);
         };    
