@@ -10,7 +10,7 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
 
         const token = localStorage.getItem("token");
         
-        const response = await fetch("http://localhost:8000/api/irrigation/", {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/irrigation/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

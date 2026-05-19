@@ -11,7 +11,7 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
 
         const token = localStorage.getItem("token");
 
-        const response = await fetch("http://localhost:8000/api/farm/", {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/farm/`, {
             method: "POST",
             headers: {
                 "Content-Type" : "application/json",
