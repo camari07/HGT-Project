@@ -5,9 +5,10 @@ from rest_framework.views import APIView
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from posts.models import Irrigation as IrrigationModel 
+from posts.models import Irrigation as IrrigationModel
+from posts.models import Maintenance
 from posts.models import Farm 
-from .serializers import UserSerializer, IrrigationSerializer, FarmSerializer
+from .serializers import UserSerializer, IrrigationSerializer, FarmSerializer, MaintenanceSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -69,6 +70,18 @@ class FarmView(ModelViewSet):
 
     def get_queryset(self):
         return Farm.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class MaintenanceView(ModelViewSet):
+    serializer_class = MaintenanceSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Maintenance.objects.all()
+
+    def get_queryset(self):
+        return Maintenance.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

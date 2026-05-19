@@ -5,6 +5,7 @@ import Login from './pages/login'
 import Signup from './pages/signup'
 import FarmActivity from './pages/farmact'
 import ProfilePage from './pages/profile'
+import Maintenance from './pages/maintenance'
 import React from "react";
 import Irrigation from './pages/irrigation'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -19,12 +20,14 @@ function App() {
  
     <Router>
       <Routes>
-        <Route path="/" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Home /></Layout>} />
+        <Route path="/" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Login /></Layout>} />
+        <Route path="/home" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Home /></Layout>} />
         <Route path="/login" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn }><Login setIsLoggedIn={setIsLoggedIn}/></Layout>} />
         <Route path="/signup" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Signup /></Layout>} />
         <Route path="/irrigation" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Irrigation /></Layout>} />
         <Route path="/farm" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><FarmActivity /></Layout>} />
         <Route path="/profile" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><ProfilePage /></Layout>} />
+        <Route path="/maintenance" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Maintenance /></Layout>} />
       </Routes>
     </Router>
 

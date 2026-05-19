@@ -21,7 +21,9 @@ function Home () {
             </div>
             <div class="mr-5">
                     <img src="https://picsum.photos/536/354" alt="lorem ipsum" />
-                    <h3>Record irrigation activity</h3>
+                    <Link to="/maintenance">
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 mt-2 rounded">Record Maintenance Activity</button>
+                    </Link>
             </div>
             <div class="mr-5">
                     <img src="https://picsum.photos/536/354" alt="lorem ipsum" />
