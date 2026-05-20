@@ -6,7 +6,7 @@ databases:
 
 services:
 
-  - type: web
+  - type: static
     name: logtracker-backend
     runtime: python
     plan: free
