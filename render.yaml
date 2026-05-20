@@ -26,7 +26,7 @@ services:
         value: "*"
 
 
-  - type: web
+  - type: static_site
     name: logtracker-frontend
     runtime: static
     plan: free
