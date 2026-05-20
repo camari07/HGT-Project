@@ -26,13 +26,13 @@ services:
         value: "*"
 
 
-  - type: static
+  - type: web
     name: logtracker-frontend
-    runtime: node
+    runtime: static
     plan: free
     rootDir: Logtracker
     buildCommand: "npm install && npm run build"
-    publishPath: "dist"
+    publishDir: ./dist
     envVars:
       - key: VITE_API_URL
         fromService:
