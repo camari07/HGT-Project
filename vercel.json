@@ -1,6 +1,4 @@
 {
-  "buildCommand": "cd Logtracker && npm install && npm run build",
-  "outputDirectory": "Logtracker/dist",
-  "installCommand": "cd Logtracker && npm install",
+  "rootDirectory": "Logtracker",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
