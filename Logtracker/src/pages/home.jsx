@@ -3,6 +3,22 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Leaf, Droplets, Wrench } from "lucide-react";
 
 const Home = () => {
+  const [username, setUsername] = React.useState("");
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    fetch(`${import.meta.env.VITE_API_URL}/profile/`, {
+      headers: {
+        "Authorization": `Token ${token}`,
+      }
+    })
+    .then(res => res.json())
+    .then(data => setUsername(data.username))
+    .catch(err => console.error("Failed to fetch profile:", err));
+  }, []);
+
   const navigationCards = [
     {
       title: "Agronomy Hub",
@@ -33,7 +49,8 @@ const Home = () => {
       {/* Hero */}
       <div className="mb-12">
         <h1 className="text-4xl md:text-5xl font-black text-emerald-950 leading-tight mb-4">
-          Welcome to <span className="text-emerald-600">Holland Greentech Ghana</span>
+          Welcome{username ? `, ${username}` : ""}! <br />
+          <span className="text-emerald-600">Holland Greentech Ghana</span>
         </h1>
         <p className="text-lg text-slate-500 max-w-xl">
           Manage your irrigation, greenhouse systems, and agronomy data all in one place.
