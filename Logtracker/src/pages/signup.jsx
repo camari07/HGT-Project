@@ -55,7 +55,7 @@ function Signup() {
                     <button className="bg-green-500 p-2 text-white rounded-md" type="submit">Sign Up</button>
                 </form>
                 <Link to="/login">
-                    <button className="bg-green-500 p-2 text-white rounded-md">Already have an account? Login</button>
+                    <button>Already have an account? Login</button>
                 </Link>
             </div>
         </div>
