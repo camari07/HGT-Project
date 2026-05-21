@@ -87,9 +87,9 @@ const ContactPage = () => {
             </div>
 
             {/* Banner tagline from the roll-up banner image text */}
-            <div className="relative z-10 mt-12 pt-6 border-t border-white/10 text-xs text-gray-300">
-              <span className="text-[#008751] font-bold block mb-1">Developing the horticulture sector</span>
-              Providing commercial farmers with input, premium tech, and agronomical services.
+            <div className="relative z-10 mt-12 pt-6 border-t border-white/10 text-xs text-gray-300 text-center">
+                <span className="text-[#008751] font-bold block mb-1">Developing the horticulture sector</span>
+                    Providing commercial farmers with input, premium tech, and agronomical services.
             </div>
 
           </div>
