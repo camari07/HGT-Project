@@ -30,7 +30,7 @@ services:
     runtime: static
     rootDir: Logtracker
     buildCommand: "npm install && npm run build"
-    staticPublishPath: ./build
+    staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
         fromService:
