@@ -9,7 +9,6 @@ services:
   - type: web
     name: logtracker-backend
     runtime: python
-    plan: starter
     rootDir: backend
     buildCommand: "./build.sh"
     startCommand: "python -m gunicorn backend.asgi:application -k uvicorn.workers.UvicornWorker"
@@ -29,7 +28,6 @@ services:
   - type: web
     name: logtracker-frontend
     runtime: static
-    plan: starter
     rootDir: Logtracker
     buildCommand: "npm install && npm run build"
     staticPublishPath: ./build
