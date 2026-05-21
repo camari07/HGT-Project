@@ -21,7 +21,11 @@ function App() {
  
     <Router>
       <Routes>
-        <Route path="/" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Home /></Layout>} />
+        <Route path="/" element={
+          <Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
+              {isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+          </Layout>
+}         />
         <Route path="/home" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Home /></Layout>} />
         <Route path="/about" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><About /></Layout>} />
         <Route path="/login" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn }><Login setIsLoggedIn={setIsLoggedIn}/></Layout>} />
