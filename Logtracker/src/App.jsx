@@ -9,6 +9,7 @@ import ProfilePage from './pages/profile'
 import Maintenance from './pages/maintenance'
 import React from "react";
 import Irrigation from './pages/irrigation'
+import ContactPage from './pages/contactpage'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import './App.css'
@@ -28,6 +29,7 @@ function App() {
 }         />
         <Route path="/home" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Home /></Layout>} />
         <Route path="/about" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><About /></Layout>} />
+        <Route path="/contact" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><ContactPage /></Layout>} />
         <Route path="/login" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn }><Login setIsLoggedIn={setIsLoggedIn}/></Layout>} />
         <Route path="/signup" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Signup /></Layout>} />
         <Route path="/irrigation" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Irrigation /></Layout>} />
