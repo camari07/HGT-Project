@@ -31,7 +31,7 @@ const ContactPage = () => {
           <h1 className="text-4xl md:text-5xl font-bold mt-2 tracking-tight">
             Holland <span className="text-emerald-400">Greentech</span> Ghana
           </h1>
-          <p className="mt-4 text-emerald-100 max-w-xl mx-auto text-base md:text-lg">
+          <p className="mt-4 text-emerald-100 max-w-xl mx-auto text-base md:text-lg text-center">
             Developing the horticulture sector with sustainable, innovative, and smart farming solutions.
           </p>
         </div>
