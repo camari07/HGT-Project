@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Layout from './layout/layout'
 import Home from './pages/home'
+import About from './pages/about'
 import Login from './pages/login'
 import Signup from './pages/signup'
 import FarmActivity from './pages/farmact'
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Login setIsLoggedIn={setIsLoggedIn}/></Layout>} />
         <Route path="/home" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Home /></Layout>} />
+        <Route path="/about" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><About /></Layout>} />
         <Route path="/login" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn }><Login setIsLoggedIn={setIsLoggedIn}/></Layout>} />
         <Route path="/signup" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Signup /></Layout>} />
         <Route path="/irrigation" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Irrigation /></Layout>} />
