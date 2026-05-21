@@ -52,7 +52,7 @@ const Home = () => {
           Welcome{username ? `, ${username}` : ""}! <br />
           <span className="text-emerald-600">Holland Greentech Ghana</span>
         </h1>
-        <p className="text-lg text-slate-500 max-w-xl">
+        <p className="text-lg text-slate-500 w-full text-center">
           Manage your irrigation, greenhouse systems, and agronomy data all in one place.
         </p>
       </div>
