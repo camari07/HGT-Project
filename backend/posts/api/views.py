@@ -95,4 +95,27 @@ class ProfileView(APIView):
         return Response({
             'username': user.username,
             'email': user.email,
+            'irrigation_count': IrrigationModel.objects.filter(user=user).count(),
+            'farm_count': Farm.objects.filter(user=user).count(),
+            'maintenance_count': Maintenance.objects.filter(user=user).count(),
         }, status=status.HTTP_200_OK)
+
+
+class ChangePasswordView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        old_password = request.data.get('old_password')
+        new_password = request.data.get('new_password')
+
+        if not user.check_password(old_password):
+            return Response({'error': 'Current password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.set_password(new_password)
+        user.save()
+        token, _ = Token.objects.get_or_create(user=user)
+        token.delete()
+        new_token, _ = Token.objects.get_or_create(user=user)
+        return Response({'message': 'Password changed successfully', 'token': new_token.key}, status=status.HTTP_200_OK)
