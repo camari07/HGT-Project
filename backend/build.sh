@@ -2,5 +2,8 @@
 pip install -r requirements.txt
 python manage.py collectstatic --no-input
 
-# Force Django to create the tables directly, skipping migration tracking
-python -c "import os, django; os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings'); django.setup(); from django.core.management import call_command; call_command('migrate', run_syncdb=True)"
+# 1. Clear out the migration history tracker specifically for your app
+python manage.py migrate posts zero --fake
+
+# 2. Re-apply everything with a hard sync to build the raw tables
+python manage.py migrate --run-syncdb
