@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import ProfileButton from "./profilebutton";
 
-function Header({ isloggedIn, setIsLoggedIn, navigate }) {
+function Header({ isLoggedIn, setIsLoggedIn, navigate }) {
     return (
         <header className="fixed top-0 w-full bg-gray-800 text-white p-4 flex justify-between items-center z-50">
             <nav>
