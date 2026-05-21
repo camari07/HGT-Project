@@ -84,7 +84,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Website</h3>
-                    <p className="text-gray-900 font-medium mt-0.5 hover:text-emerald-600 transition-colors">
+                    <p className="text-sm text-gray-900 font-medium mt-0.5 hover:text-emerald-600 transition-colors">
                       <a href="http://www.hollandgreentechghana.com/" target="_blank" rel="noopener noreferrer">
                         hollandgreentechghana.com
                       </a>
