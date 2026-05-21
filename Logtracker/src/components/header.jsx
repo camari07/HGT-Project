@@ -13,9 +13,9 @@ function Header({ isloggedIn, setIsLoggedIn, navigate }) {
                 </ul>
             </nav>
             <div>
-                {isloggedIn && (
+                {isLoggedIn && (
                     <ProfileButton
-                        isloggedIn={isloggedIn}
+                        isLoggedIn={isLoggedIn}
                         setIsLoggedIn={setIsLoggedIn}
                         navigate={navigate}
                     />
