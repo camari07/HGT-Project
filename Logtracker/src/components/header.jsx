@@ -1,33 +1,28 @@
 import React from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ProfileButton from "./profilebutton";
 
-function Header ({isloggedIn, setIsLoggedIn, navigate}) {
-    const onclick = () => {
-        if (isloggedIn) {
-            navigate("/irrigation");
-        }
-    };
-
-    return(
-        <header class="fixed top-0 w-full bg-gray-800 text-white p-4 flex justify-between items-center">
+function Header({ isLoggedIn, setIsLoggedIn, navigate }) {
+    return (
+        <header className="fixed top-0 w-full bg-gray-800 text-white p-4 flex justify-between items-center z-50">
             <nav>
-                <ul class="flex space-x-4">
-                    <li className="flex hover:text-blue-500">Home</li>
-                    <li class="flex hover:text-blue-500">About</li>
-                    <li class="flex hover:text-blue-500">Contact</li>
-
-                
-
+                <ul className="flex space-x-6">
+                    <li><Link to="/home" className="hover:text-green-400">Home</Link></li>
+                    <li><Link to="/about" className="hover:text-green-400">About</Link></li>
+                    <li><Link to="/contact" className="hover:text-green-400">Contact</Link></li>
                 </ul>
             </nav>
             <div>
-                {isloggedIn && <ProfileButton isloggedIn={isloggedIn} setIsLoggedIn={setIsLoggedIn} navigate={navigate} />}
+                {isLoggedIn && (
+                    <ProfileButton
+                        isLoggedIn={isLoggedIn}
+                        setIsLoggedIn={setIsLoggedIn}
+                        navigate={navigate}
+                    />
+                )}
             </div>
-            
         </header>
-    )
-}; 
+    );
+}
 
-export default Header
+export default Header;
