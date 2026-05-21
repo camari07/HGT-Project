@@ -13,7 +13,7 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
 
         const token = localStorage.getItem("token");
 
-        const BASE_URL = import.meta.env.REACT_APP_API_URL || "http://localhost:8000";
+        const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
         const response = await fetch(`${BASE_URL}/api/farm/`, {
             method: "POST",
@@ -24,7 +24,9 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
             body: JSON.stringify({
                 activity_type: activityType,
                 irrigating: irrigating,
-                description: description
+                description: description,
+                fertilizer_used: fertilizerUsed,
+                crop_condition: crop_condition
             })
         });
 
