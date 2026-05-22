@@ -29,8 +29,8 @@ const Signup = () => {
     }
 
     try {
-      // Integration with your Django Backend
-      const response = await fetch("http://127.0.0.1:8000/signup/", {
+      // Integration with your Live Render Backend
+      const response = await fetch("https://hgt-monitor.onrender.com/signup/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -45,9 +45,9 @@ const Signup = () => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("token", data.token);
         console.log("Signup successful:", data);
-        navigate("/"); // Redirect to home/dashboard
+        // Corrected: Send users to /login to sign in manually instead of logging in automatically
+        navigate("/login"); 
       } else {
         setError(data.error || "Signup failed. Please try again.");
         console.error("Signup failed:", data);
