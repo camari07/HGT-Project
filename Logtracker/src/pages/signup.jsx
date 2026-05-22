@@ -4,7 +4,6 @@ import { useNavigate, Link } from "react-router-dom";
 const Signup = () => {
   const navigate = useNavigate();
   
-  // Using the structured object state from snippet 2
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -29,8 +28,8 @@ const Signup = () => {
     }
 
     try {
-      // Integration with your Live Render Backend
-      const response = await fetch("https://hgt-monitor.onrender.com/signup/", {
+      // Corrected: Perfectly matches your active Render routing path without a trailing slash
+      const response = await fetch("https://hgt-monitor.onrender.com/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -46,7 +45,7 @@ const Signup = () => {
 
       if (response.ok) {
         console.log("Signup successful:", data);
-        // Corrected: Send users to /login to sign in manually instead of logging in automatically
+        // Requires manual login after account creation
         navigate("/login"); 
       } else {
         setError(data.error || "Signup failed. Please try again.");
