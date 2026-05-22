@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import Layout from './layout/layout'
 import Home from './pages/home'
 import About from './pages/about'
@@ -7,7 +7,6 @@ import Signup from './pages/signup'
 import FarmActivity from './pages/farmact'
 import ProfilePage from './pages/profile'
 import Maintenance from './pages/maintenance'
-import React from "react";
 import Irrigation from './pages/irrigation'
 import ContactPage from './pages/contactpage'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -19,26 +18,28 @@ function App() {
 
   return (
     <>
- 
-    <Router>
-      <Routes>
-        <Route path="/" element={
-          <Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
-              {isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} />}
-          </Layout>
-}         />
-        <Route path="/home" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Home /></Layout>} />
-        <Route path="/about" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><About /></Layout>} />
-        <Route path="/contact" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><ContactPage /></Layout>} />
-        <Route path="/login" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn }><Login setIsLoggedIn={setIsLoggedIn}/></Layout>} />
-        <Route path="/signup" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Signup /></Layout>} />
-        <Route path="/irrigation" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Irrigation /></Layout>} />
-        <Route path="/farm" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><FarmActivity /></Layout>} />
-        <Route path="/profile" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><ProfilePage /></Layout>} />
-        <Route path="/maintenance" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Maintenance /></Layout>} />
-      </Routes>
-    </Router>
-
+      <Router>
+        <Routes>
+          <Route path="/" element={
+            <Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
+                {isLoggedIn ? <Home /> : <Login setIsLoggedIn={setIsLoggedIn} />}
+            </Layout>
+          } />
+          
+          <Route path="/home" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Home /></Layout>} />
+          <Route path="/about" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><About /></Layout>} />
+          <Route path="/contact" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><ContactPage /></Layout>} />
+          <Route path="/login" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Login setIsLoggedIn={setIsLoggedIn}/></Layout>} />
+          
+          {/* Keeps signup purely visual/functional, requiring a separate login step */}
+          <Route path="/signup" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Signup /></Layout>} />
+          
+          <Route path="/irrigation" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Irrigation /></Layout>} />
+          <Route path="/farm" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><FarmActivity /></Layout>} />
+          <Route path="/profile" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><ProfilePage /></Layout>} />
+          <Route path="/maintenance" element={<Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}><Maintenance /></Layout>} />
+        </Routes>
+      </Router>
     </>
   )
 }
