@@ -29,7 +29,7 @@ const Signup = () => {
 
     try {
       // Corrected: Perfectly matches your active Render routing path without a trailing slash
-      const response = await fetch("https://hgt-monitor.onrender.com/api/signup", {
+      const response = await fetch("https://hgt-monitor.onrender.com/api/signup/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -21,7 +21,7 @@ const Login = ({ setIsLoggedIn }) => {
 
     try {
       // Corrected: Pointing directly to your active live Render application path
-      const response = await fetch("https://hgt-monitor.onrender.com/api/login", {
+      const response = await fetch("https://hgt-monitor.onrender.com/api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
