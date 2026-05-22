@@ -20,7 +20,8 @@ const Login = ({ setIsLoggedIn }) => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/login/", {
+      // Corrected: Pointing directly to your active live Render application path
+      const response = await fetch("https://hgt-monitor.onrender.com/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -73,7 +74,7 @@ const Login = ({ setIsLoggedIn }) => {
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm">
+            <div className="mb-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 text-sm">
               {error}
             </div>
           )}
