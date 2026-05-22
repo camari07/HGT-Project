@@ -1,63 +1,165 @@
-import React from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
-function Signup() {
-    const navigate = useNavigate();
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+const Signup = () => {
+  const navigate = useNavigate();
+  
+  // Using the structured object state from snippet 2
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/signup/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username: username,
-                email: email,
-                password: password,
-            })
-        })
+  const [error, setError] = useState("");
 
-        const data = await response.json();
-        console.log(data);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-        if (response.ok) {
-            localStorage.setItem("token", data.token);
-            console.log("Signup successful:", data);
-            navigate("/");
-        } else {
-            console.error("Signup failed:", data);
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    // Basic client-side validation
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match");
+      return;
     }
 
-    return (
-        <div className="grid place-items-center h-screen">
-            <div className="grid justify-items-center bg-green-100 p-10 rounded-lg">
-                <form onSubmit={handleSubmit}>
-                    <h2>Sign Up to Holland Greentech LogTracker</h2>
-                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="Username">User Name</label>
-                    <input className="w-full p-2 border border-gray-300 rounded-md" value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username" />
-                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="email">Email</label>
-                    <input className="block w-full p-2 border border-gray-300 rounded-md" value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
-                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="password">Password</label>
-                    <input className="block w-full p-2 border border-gray-300 rounded-md" value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
-                    {/* <label htmlFor="confirm_password">Confirm Password</label> */}
-                    {/* <input class="block" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirm Password" /> */}
-                    <button type="submit">Sign Up</button>
-                </form>
-                <Link to="/login">
-                    <button >Already have an account? Login</button>
-                </Link>
-            </div>
-        </div>
-    )
-}
+    try {
+      // Integration with your Django Backend
+      const response = await fetch("http://127.0.0.1:8000/signup/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        })
+      });
 
-export default Signup
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        console.log("Signup successful:", data);
+        navigate("/"); // Redirect to home/dashboard
+      } else {
+        setError(data.error || "Signup failed. Please try again.");
+        console.error("Signup failed:", data);
+      }
+    } catch (err) {
+      setError("Server connection failed. Is the backend running?");
+      console.error("Fetch error:", err);
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen bg-white font-sans">
+      {/* Left Side: Visual Branding */}
+      <div className="hidden lg:flex lg:w-1/2 bg-emerald-900 relative items-center justify-center p-12">
+        <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&q=80')] bg-cover bg-center"></div>
+        <div className="relative z-10 max-w-md text-center">
+          <h1 className="text-4xl font-bold text-white mb-6">Join the Future of Precision Farming</h1>
+          <p className="text-emerald-100 text-lg">
+            Access advanced irrigation diagnostics, greenhouse maintenance, and agronomy insights tailored for your farm.
+          </p>
+        </div>
+      </div>
+
+      {/* Right Side: Signup Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-16">
+        <div className="w-full max-w-md">
+          <div className="mb-10 text-center lg:text-left">
+            <h2 className="text-3xl font-extrabold text-slate-900">Create Account</h2>
+            <p className="text-slate-500 mt-2">Start managing your installations today.</p>
+          </div>
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border-l-4 border-red-500 text-red-700 text-sm">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* User Name */}
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">User Name</label>
+              <input
+                name="username"
+                type="text"
+                required
+                className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none transition bg-slate-50"
+                placeholder="e.g. FarmerJohn"
+                value={formData.username}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-1">Email</label>
+              <input
+                name="email"
+                type="email"
+                required
+                className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none transition bg-slate-50"
+                placeholder="john@example.com"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+
+            {/* Password Fields */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Password</label>
+                <input
+                  name="password"
+                  type="password"
+                  required
+                  className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none transition bg-slate-50"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1">Confirm Password</label>
+                <input
+                  name="confirmPassword"
+                  type="password"
+                  required
+                  className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-emerald-500 outline-none transition bg-slate-50"
+                  placeholder="••••••••"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-emerald-800 transition transform hover:-translate-y-0.5 active:scale-95 mt-4"
+            >
+              Sign Up
+            </button>
+          </form>
+
+          <p className="text-center mt-8 text-slate-600 text-sm">
+            Already have an account?{" "}
+            <Link to="/login" className="text-emerald-700 font-bold hover:underline">
+              Login
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Signup;
