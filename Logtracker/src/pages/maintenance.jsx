@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Maintenance() {
     const [equipment_name, setEquipmentName] = useState("");
@@ -49,7 +50,7 @@ function Maintenance() {
                 <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="description">Description:</label>
                 <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
                 <button type="submit">Submit Request</button>
-                
+
                 <Link to="/home"> 
                         <button className="block bg-gray-500 text-white p-2 rounded-md mt-4 ml-18">Go Back</button>
                 </Link>

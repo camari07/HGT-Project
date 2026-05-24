@@ -1,33 +1,38 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import irrigationImg from "../assets/irrigate.jpg";
+import farmImg from "../assets/farming.jpg";
+import maintenanceImg from "../assets/farmact.jpeg";
 
 function Home() {
         return(
-        <div class="flex flex-col md:flex-row jusify-center md:justify-between items-center mt-10 bg-green-100 h-150 p-5">
-            <div class="mr-5">
+        <div className="sm:mt-100 flex flex-col md:flex-row justify-center items-center md:justify-between mt-10 bg-white h-150">
+            <div className="sm:mt-10 md:mr-5 md:w-1/4 flex flex-col items-center md:justify-between">
 
-                    <img className="max-h-30 md:max-h-auto object-contain " src="https://picsum.photos/536/354" alt="lorem ipsum" />
+                    <img className="ml-4 mt-30 max-h-30 md:max-h-auto rounded object-contain " src={irrigationImg} alt="lorem ipsum" />
                     <Link to="/irrigation">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 mt-2 rounded">Record Irrigation Activity</button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white ml-4 mt-2 rounded w-40">Irrigation Activity</button>
                     </Link>
       
             </div>
-            <div class="mr-5">
-                    <img className="max-h-30 md:max-h-auto object-contain " src="https://picsum.photos/536/354" alt="lorem ipsum" />
+            <div className="md:mr-5 mt-2 md:w-1/4 flex flex-col items-center md:justify-between">
+                    <img className="ml-4 max-h-30 md:max-h-auto object-contain " src={farmImg} alt="lorem ipsum" />
                     <Link to="/farm">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 mt-2 rounded">Record Farm Activity</button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white ml-4 mt-2 rounded w-40">Record Farm Activity</button>
                     </Link>
             </div>
-            <div className="mr-5">
-                    <img className="max-h-30 md:max-h-auto object-contain " src="https://picsum.photos/536/354" alt="lorem ipsum" />
+            <div className="md:mr-5 md:w-1/4 flex flex-col items-center md:justify-between">
+                    <img className="ml-4 mt-2 max-h-30 md:max-h-auto object-contain " src={maintenanceImg} alt="lorem ipsum" />
                     <Link to="/maintenance">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 mt-2 rounded">Record Maintenance Activity</button>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white ml-4 mt-2 rounded w-40">Maintenance Activity</button>
                     </Link>
             </div>
-            <div className="mr-5" >
-                    <img className="max-h-30 md:max-h-auto object-contain " src="https://picsum.photos/536/354" alt="lorem ipsum" />
-                    <h3>Report a problem</h3>
+            <div className="md:mr-5 md:w-1/4 flex flex-col items-center md:justify-between"> 
+                    <img className="ml-4 mt-2 max-h-30 md:max-h-auto object-contain " src="https://picsum.photos/536/354" alt="lorem ipsum" />
+                    <Link to="/maintenance">
+                        <button className="bg-green-500 hover:bg-green-700 text-white ml-4 mt-2 rounded w-40">Report a problem</button>
+                    </Link>
             </div>
 
         </div>
