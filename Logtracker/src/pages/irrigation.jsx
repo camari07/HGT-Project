@@ -87,6 +87,9 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                     </select>
 
                     <button className="block bg-green-500 text-white p-2 rounded-md mt-4 ml-18" type="submit">Submit Irrigation Log</button>
+                    <Link to="/home"> 
+                        <button className="block bg-gray-500 text-white p-2 rounded-md mt-4 ml-18">Go Back</button>
+                    </Link>
                 </form>
             </div>
         </div>

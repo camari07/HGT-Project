@@ -68,7 +68,12 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
                         <option value="Pest presence">Pest presence</option>
                         <option value="Spots on leaves">Spots on leaves</option>
                     </select>
+                    
                     <button className="block cursor-pointer bg-green-500 text-white p-2 rounded-md mt-4 ml-18" type="submit">Submit</button>
+                
+                    <Link to="/home"> 
+                        <button className="block bg-gray-500 text-white p-2 rounded-md mt-4 ml-18">Go Back</button>
+                    </Link>                
                 </form>
             </div>
         </div>
