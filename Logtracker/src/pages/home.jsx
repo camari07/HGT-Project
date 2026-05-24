@@ -7,8 +7,8 @@ import maintenanceImg from "../assets/farmact.jpeg";
 
 function Home() {
         return(
-        <div className="sm:mt-100 flex flex-col md:flex-row justify-center items-center md:justify-between mt-10 bg-white h-150">
-            <div className="sm:mt-10 md:mr-5 md:w-1/4 flex flex-col items-center md:justify-between">
+        <div className="flex flex-col md:flex-row justify-center items-center md:justify-between mt-10 bg-white h-150">
+            <div className="md:mr-5 md:w-1/4 flex flex-col items-center md:justify-between">
 
                     <img className="ml-4 mt-30 max-h-30 md:max-h-auto rounded object-contain " src={irrigationImg} alt="lorem ipsum" />
                     <Link to="/irrigation">
