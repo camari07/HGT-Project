@@ -37,6 +37,7 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
         const data = await response.json();
         
         if (response.ok) {
+            alert("Irrigation log submitted successfully!");
             console.log("Irrigation log submitted successfully:", data);
             setFieldName("");
             setWaterAmount("");
@@ -45,6 +46,7 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
             setFilterType("None");
             setLeakage(false);
         } else {
+            alert("Failed to submit irrigation log.");
             console.error("Failed to submit irrigation log:", data);
         }
         
