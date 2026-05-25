@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import FarmView, SignupView, LoginView, IrrigationView, MaintenanceView, ProfileView, ChangePasswordView, VerifyEmailView
+from .views import FarmView, SignupView, LoginView, IrrigationView, MaintenanceView, ProfileView, ChangePasswordView, VerifyEmailView, PasswordResetRequestView
 from .serializers import UserSerializer, IrrigationSerializer
 from django.views.generic import RedirectView
 
@@ -30,6 +30,7 @@ urlpatterns = [
     path('profile/', ProfileView.as_view(), name='profile'),
     path('change-password/', ChangePasswordView.as_view(), name='change-password'),
     path('verify-email/', VerifyEmailView.as_view(), name='verify-email'),
+    path("password-reset/", PasswordResetRequestView.as_view(), name="password_reset"),
 ] 
 
 
