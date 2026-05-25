@@ -6,7 +6,7 @@ function Footer({ isLoggedIn, setIsLoggedIn }) {
     const navigate = useNavigate();
 
     return (
-        <div className="fixed bottom-0 w-full bg-gray-800 text-white p-6 mt-10">
+        <div className="sticky bottom-0 w-full bg-gray-800 text-white p-6 mt-10">
             <div className="flex flex-col md:flex-row justify-center items-start md:items-center gap-6">
                 <div className="rounded-lg text-gray-800">
                     {isLoggedIn && (
