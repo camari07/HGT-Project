@@ -32,29 +32,45 @@ function ProfilePage() {
             return;
         }
 
-        const token = localStorage.getItem("token");
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/change-password/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Token ${token}`,
-            },
-            body: JSON.stringify({
-                old_password: oldPassword,
-                new_password: newPassword,
-            })
-        });
+        try {
+            const token = localStorage.getItem("token");
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/change-password/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Token ${token}`,
+                },
+                body: JSON.stringify({
+                    old_password: oldPassword,
+                    new_password: newPassword,
+                })
+            });
 
-        const data = await response.json();
+            // Verify content type to prevent SyntaxError if the server hits a 500 fault
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                setMessage("");
+                setError(`Server error: Received status ${response.status}`);
+                return;
+            }
 
-        if (response.ok) {
-            localStorage.setItem("token", data.token);
-            setMessage("Password changed successfully!");
-            setOldPassword("");
-            setNewPassword("");
-            setConfirmPassword("");
-        } else {
-            setError(data.error || "Failed to change password.");
+            const data = await response.json();
+
+            if (response.ok) {
+                setError(""); // Clear previous errors cleanly on success
+                localStorage.setItem("token", data.token);
+                setMessage("Password changed successfully!");
+                setOldPassword("");
+                setNewPassword("");
+                setConfirmPassword("");
+            } else {
+                setMessage(""); // Clear success state cleanly if request fails
+                setError(data.error || "Failed to change password.");
+            }
+        } catch (err) {
+            console.error("Password submission error:", err);
+            setMessage("");
+            setError("Network error. Please check your connection and try again.");
         }
     };
 
