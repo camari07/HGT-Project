@@ -193,7 +193,80 @@ class ChangePasswordView(APIView):
         new_token, _ = Token.objects.get_or_create(user=user)
         return Response({'message': 'Password changed successfully', 'token': new_token.key}, status=status.HTTP_200_OK)
 
+class PasswordResetRequestView(APIView):
+    permission_classes = [AllowAny]
 
+    def post(self, request):
+        email = request.data.get('email')
+        
+        if not email:
+            return Response({'error': 'Email address is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            # Security Best Practice: Return a 200 even if email doesn't exist 
+            # to prevent malicious user enumeration ("email harvesting")
+            return Response({'message': 'If an account matches that email, a verification code has been dispatched.'}, status=status.HTTP_200_OK)
+
+        # 1. Generate or refresh verification code parameters
+        verification, _ = VerificationCode.objects.get_or_create(user=user)
+        verification.generate_code()
+
+        brevo_key = os.environ.get("BREVO_API_KEY")
+        from_email = os.environ.get("DEFAULT_FROM_EMAIL")
+
+        if not brevo_key or not from_email:
+            print("CONFIG ERROR: Brevo credentials missing during password reset request.")
+            return Response({'error': 'Internal mail configuration error.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # 2. Structure the custom Brevo email layout
+        try:
+            url = "https://api.brevo.com/v3/smtp/email"
+            headers = {
+                "accept": "application/json",
+                "content-type": "application/json",
+                "api-key": brevo_key
+            }
+            
+            html_content = f"""
+                <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <h2 style="color: #16a34a; margin-bottom: 4px;">Holland Greentech Ghana</h2>
+                    <h3 style="color: #475569; margin-top: 0; font-weight: normal;">Password Reset Request</h3>
+                    <p>Hi {user.username},</p>
+                    <p>We received a request to reset your LogTracker account password. Use the security verification code below to authorize the change:</p>
+                    <div style="font-size: 32px; font-weight: bold; color: #dc2626; letter-spacing: 6px; text-align: center; padding: 16px; background: #fef2f2; border-radius: 8px; margin: 24px 0;">
+                        {verification.code}
+                    </div>
+                    <p style="color: #64748b; font-size: 14px;">This security code will expire in 24 hours.</p>
+                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+                    <p style="color: #94a3b8; font-size: 12px;">If you did not make this request, you can safely ignore this message—your credentials remain safe.</p>
+                </div>
+            """
+
+            payload = {
+                "sender": {
+                    "name": "Holland Greentech Ghana",
+                    "email": from_email
+                },
+                "to": [
+                    {
+                        "email": user.email,
+                        "name": user.username
+                    }
+                ],
+                "subject": "Reset your HGT LogTracker password",
+                "htmlContent": html_content
+            }
+
+            response = requests.post(url, json=payload, headers=headers)
+            response.raise_for_status()
+
+        except Exception as email_err:
+            print(f"Brevo Reset Dispatch Fault: {str(email_err)}")
+            return Response({'error': 'Failed to send recovery email. Please try again later.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({'message': 'If an account matches that email, a verification code has been dispatched.'}, status=status.HTTP_200_OK)
 # --- ViewSets for Farm Operations ---
 
 class IrrigationView(ModelViewSet):
@@ -233,3 +306,79 @@ class MaintenanceView(ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class PasswordResetRequestView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email')
+        
+        if not email:
+            return Response({'error': 'Email address is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            # Security Best Practice: Return a 200 even if email doesn't exist 
+            # to prevent malicious user enumeration ("email harvesting")
+            return Response({'message': 'If an account matches that email, a verification code has been dispatched.'}, status=status.HTTP_200_OK)
+
+        # 1. Generate or refresh verification code parameters
+        verification, _ = VerificationCode.objects.get_or_create(user=user)
+        verification.generate_code()
+
+        brevo_key = os.environ.get("BREVO_API_KEY")
+        from_email = os.environ.get("DEFAULT_FROM_EMAIL")
+
+        if not brevo_key or not from_email:
+            print("CONFIG ERROR: Brevo credentials missing during password reset request.")
+            return Response({'error': 'Internal mail configuration error.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # 2. Structure the custom Brevo email layout
+        try:
+            url = "https://api.brevo.com/v3/smtp/email"
+            headers = {
+                "accept": "application/json",
+                "content-type": "application/json",
+                "api-key": brevo_key
+            }
+            
+            html_content = f"""
+                <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                    <h2 style="color: #16a34a; margin-bottom: 4px;">Holland Greentech Ghana</h2>
+                    <h3 style="color: #475569; margin-top: 0; font-weight: normal;">Password Reset Request</h3>
+                    <p>Hi {user.username},</p>
+                    <p>We received a request to reset your LogTracker account password. Use the security verification code below to authorize the change:</p>
+                    <div style="font-size: 32px; font-weight: bold; color: #dc2626; letter-spacing: 6px; text-align: center; padding: 16px; background: #fef2f2; border-radius: 8px; margin: 24px 0;">
+                        {verification.code}
+                    </div>
+                    <p style="color: #64748b; font-size: 14px;">This security code will expire in 24 hours.</p>
+                    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+                    <p style="color: #94a3b8; font-size: 12px;">If you did not make this request, you can safely ignore this message—your credentials remain safe.</p>
+                </div>
+            """
+
+            payload = {
+                "sender": {
+                    "name": "Holland Greentech Ghana",
+                    "email": from_email
+                },
+                "to": [
+                    {
+                        "email": user.email,
+                        "name": user.username
+                    }
+                ],
+                "subject": "Reset your HGT LogTracker password",
+                "htmlContent": html_content
+            }
+
+            response = requests.post(url, json=payload, headers=headers)
+            response.raise_for_status()
+
+        except Exception as email_err:
+            print(f"Brevo Reset Dispatch Fault: {str(email_err)}")
+            return Response({'error': 'Failed to send recovery email. Please try again later.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({'message': 'If an account matches that email, a verification code has been dispatched.'}, status=status.HTTP_200_OK)
