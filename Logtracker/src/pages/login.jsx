@@ -7,6 +7,12 @@ const Login = ({ setIsLoggedIn }) => {
     email: "",
     password: ""
   });
+  
+  // New States to handle the Forgot Password view
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +26,6 @@ const Login = ({ setIsLoggedIn }) => {
     setLoading(true);
 
     try {
-      // Corrected: Pointing directly to your active live Render application path
       const response = await fetch("https://hgt-monitor.onrender.com/api/login/", {
         method: "POST",
         headers: {
@@ -38,7 +43,7 @@ const Login = ({ setIsLoggedIn }) => {
         localStorage.setItem("token", data.token);
         console.log("Login successful");
         setIsLoggedIn(true);
-        navigate("/"); // Navigate to home page after success
+        navigate("/"); 
       } else {
         setError(data.error || "Invalid email or password.");
         console.error("Login failed:", data);
@@ -46,6 +51,45 @@ const Login = ({ setIsLoggedIn }) => {
     } catch (err) {
       setError("Unable to connect to the server.");
       console.error("Fetch error:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handler to submit the password reset email to Render backend
+  const handleForgotPasswordSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccessMessage("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("https://hgt-monitor.onrender.com/api/password-reset/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email: resetEmail })
+      });
+
+      // Handle raw non-JSON error pages if system experiences a critical fault
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        setError(`Server error: Received status ${response.status}`);
+        return;
+      }
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage(data.message || "Password reset link sent to your email!");
+        setResetEmail("");
+      } else {
+        setError(data.error || "Failed to process password reset request.");
+      }
+    } catch (err) {
+      setError("Unable to connect to the server.");
+      console.error("Reset error:", err);
     } finally {
       setLoading(false);
     }
@@ -65,63 +109,124 @@ const Login = ({ setIsLoggedIn }) => {
         </div>
       </div>
 
-      {/* Right Side: Login Form */}
+      {/* Right Side: Dynamic Form Container */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-16 bg-slate-50 lg:bg-white">
         <div className="w-full max-w-md">
-          <div className="mb-10">
-            <h2 className="text-3xl font-extrabold text-slate-900">Login</h2>
-            <p className="text-slate-500 mt-2">Enter your credentials to access your dashboard.</p>
-          </div>
+          
+          {!isForgotPassword ? (
+            /* --- LOGIN FORM VIEW --- */
+            <>
+              <div className="mb-10">
+                <h2 className="text-3xl font-extrabold text-slate-900">Login</h2>
+                <p className="text-slate-500 mt-2">Enter your credentials to access your dashboard.</p>
+              </div>
 
-          {error && (
-            <div className="mb-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 text-sm">
-              {error}
-            </div>
+              {error && (
+                <div className="mb-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 text-sm">
+                  {error}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Email</label>
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    className="w-full border border-slate-200 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-emerald-500 outline-none transition bg-white"
+                    placeholder="name@company.com"
+                    value={credentials.email}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="block text-sm font-semibold text-slate-700">Password</label>
+                    <button 
+                      type="button"
+                      onClick={() => { setIsForgotPassword(true); setError(""); }}
+                      className="text-xs font-medium text-emerald-700 hover:underline"
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
+                  <input
+                    name="password"
+                    type="password"
+                    required
+                    className="w-full border border-slate-200 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-emerald-500 outline-none transition bg-white"
+                    placeholder="••••••••"
+                    value={credentials.password}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full bg-emerald-800 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-emerald-900 transition-all transform hover:-translate-y-0.5 active:scale-[0.98] mt-2 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                >
+                  {loading ? "Authenticating..." : "Login"}
+                </button>
+              </form>
+            </>
+          ) : (
+            /* --- FORGOT PASSWORD FORM VIEW --- */
+            <>
+              <div className="mb-10">
+                <h2 className="text-3xl font-extrabold text-slate-900">Reset Password</h2>
+                <p className="text-slate-500 mt-2">Enter your email address and we'll send you a recovery link.</p>
+              </div>
+
+              {error && (
+                <div className="mb-6 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 text-sm">
+                  {error}
+                </div>
+              )}
+
+              {successMessage && (
+                <div className="mb-6 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 text-sm">
+                  {successMessage}
+                </div>
+              )}
+
+              <form onSubmit={handleForgotPasswordSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Email Address</label>
+                  <input
+                    type="email"
+                    required
+                    className="w-full border border-slate-200 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-emerald-500 outline-none transition bg-white"
+                    placeholder="name@company.com"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className={`w-full bg-emerald-800 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-emerald-900 transition-all transform hover:-translate-y-0.5 active:scale-[0.98] mt-2 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                >
+                  {loading ? "Sending Link..." : "Send Reset Link"}
+                </button>
+
+                <div className="text-center mt-4">
+                  <button
+                    type="button"
+                    onClick={() => { setIsForgotPassword(false); setError(""); setSuccessMessage(""); }}
+                    className="text-sm font-semibold text-slate-600 hover:text-slate-900 underline"
+                  >
+                    Back to Login
+                  </button>
+                </div>
+              </form>
+            </>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email Field */}
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1">Email</label>
-              <input
-                name="email"
-                type="email"
-                required
-                className="w-full border border-slate-200 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-emerald-500 outline-none transition bg-white"
-                placeholder="name@company.com"
-                value={credentials.email}
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* Password Field */}
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <label className="block text-sm font-semibold text-slate-700">Password</label>
-                <a href="#" className="text-xs font-medium text-emerald-700 hover:underline">Forgot password?</a>
-              </div>
-              <input
-                name="password"
-                type="password"
-                required
-                className="w-full border border-slate-200 rounded-xl px-4 py-3.5 focus:ring-2 focus:ring-emerald-500 outline-none transition bg-white"
-                placeholder="••••••••"
-                value={credentials.password}
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* Login Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full bg-emerald-800 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-emerald-900 transition-all transform hover:-translate-y-0.5 active:scale-[0.98] mt-2 ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
-            >
-              {loading ? "Authenticating..." : "Login"}
-            </button>
-          </form>
-
-          {/* Signup Link */}
+          {/* Signup Link (Always stays pinned nicely at the bottom) */}
           <p className="text-center mt-10 text-slate-600 text-sm">
             Don't have an account?{" "}
             <Link to="/signup" className="text-emerald-700 font-bold hover:underline">
