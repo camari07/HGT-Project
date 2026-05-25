@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import FarmView, SignupView, LoginView, IrrigationView, MaintenanceView, ProfileView, ChangePasswordView
+from .views import FarmView, SignupView, LoginView, IrrigationView, MaintenanceView, ProfileView, ChangePasswordView, VerifyEmailView
 from .serializers import UserSerializer, IrrigationSerializer
 from django.views.generic import RedirectView
 
@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include(maintenancerouter.urls)),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('change-password/', ChangePasswordView.as_view(), name='change-password'),
+    path('verify-email/', VerifyEmailView.as_view(), name='verify-email'),
 ] 
 
 

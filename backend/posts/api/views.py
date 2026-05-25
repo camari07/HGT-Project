@@ -12,6 +12,9 @@ from .serializers import UserSerializer, IrrigationSerializer, FarmSerializer, M
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
+import resend
+import os
+from posts.models import VerificationCode
 
 
 class SignupView(APIView):
@@ -19,16 +22,37 @@ class SignupView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             username = serializer.validated_data['username']
-            email = serializer.validated_data['email']  
+            email = serializer.validated_data['email']
             password = serializer.validated_data['password']
 
             if User.objects.filter(email=email).exists():
                 return JsonResponse({'error': 'Email already taken'}, status=400)
-            
-            user = User.objects.create_user(username=username, email=email, password=password)
-            token, created = Token.objects.get_or_create(user=user)
-            
-            return Response({'message': 'User created successfully', 'token': token.key}, status=status.HTTP_201_CREATED)
+
+            user = User.objects.create_user(username=username, email=email, password=password, is_active=False)
+
+            verification, _ = VerificationCode.objects.get_or_create(user=user)
+            verification.generate_code()
+
+            resend.api_key = os.environ.get("RESEND_API_KEY")
+            resend.Emails.send({
+                "from": os.environ.get("DEFAULT_FROM_EMAIL"),
+                "to": email,
+                "subject": "Verify your HGT LogTracker account",
+                "html": f"""
+                    <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px;">
+                        <h2 style="color: #16a34a;">Welcome to Holland Greentech LogTracker</h2>
+                        <p>Hi {username},</p>
+                        <p>Thank you for signing up. Use the code below to verify your email address:</p>
+                        <div style="font-size: 36px; font-weight: bold; color: #16a34a; letter-spacing: 8px; text-align: center; padding: 20px; background: #f0fdf4; border-radius: 8px; margin: 20px 0;">
+                            {verification.code}
+                        </div>
+                        <p style="color: #666;">This code expires in 24 hours.</p>
+                        <p style="color: #666;">If you did not create an account, please ignore this email.</p>
+                    </div>
+                """
+            })
+
+            return Response({'message': 'Account created. Please check your email for a verification code.'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class LoginView(APIView):
@@ -119,3 +143,27 @@ class ChangePasswordView(APIView):
         token.delete()
         new_token, _ = Token.objects.get_or_create(user=user)
         return Response({'message': 'Password changed successfully', 'token': new_token.key}, status=status.HTTP_200_OK)
+    
+
+
+class VerifyEmailView(APIView):
+    def post(self, request):
+        email = request.data.get('email')
+        code = request.data.get('code')
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            verification = VerificationCode.objects.get(user=user, code=code)
+        except VerificationCode.DoesNotExist:
+            return Response({'error': 'Invalid verification code'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.is_active = True
+        user.save()
+        verification.delete()
+
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({'message': 'Email verified successfully', 'token': token.key}, status=status.HTTP_200_OK)
