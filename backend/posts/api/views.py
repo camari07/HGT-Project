@@ -1,5 +1,5 @@
 import os
-import resend
+import requests  # Dropped resend, using raw HTTP requests for Brevo
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
@@ -42,38 +42,63 @@ class SignupView(APIView):
             verification.generate_code()
 
             # 3. Pull settings safely from Render dashboard parameters
-            resend_key = os.environ.get("RESEND_API_KEY")
-            from_email = os.environ.get("DEFAULT_FROM_EMAIL", "onboarding@resend.dev")
+            brevo_key = os.environ.get("BREVO_API_KEY")
+            from_email = os.environ.get("DEFAULT_FROM_EMAIL")
 
-            if not resend_key:
-                print("CRITICAL CONFIG ERROR: RESEND_API_KEY variable missing on Render settings.")
+            if not brevo_key:
+                print("CRITICAL CONFIG ERROR: BREVO_API_KEY variable missing on Render settings.")
                 return Response({'error': 'Email provider not configured correctly.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            resend.api_key = resend_key
+            if not from_email:
+                print("CRITICAL CONFIG ERROR: DEFAULT_FROM_EMAIL variable missing on Render settings.")
+                return Response({'error': 'Sender identity not configured correctly.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            # 4. Wrap email execution in a try-except layer to avoid app failures
+            # 4. Wrap Brevo HTTP API call in a try-except layer
             try:
-                resend.Emails.send({
-                    "from": from_email,
-                    "to": email,
-                    "subject": "Verify your HGT LogTracker account",
-                    "html": f"""
-                        <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
-                            <h2 style="color: #16a34a; margin-bottom: 4px;">Holland Greentech Ghana</h2>
-                            <h3 style="color: #475569; margin-top: 0; font-weight: normal;">LogTracker Account Verification</h3>
-                            <p>Hi {username},</p>
-                            <p>Thank you for signing up. Use the verification code below to activate your account:</p>
-                            <div style="font-size: 32px; font-weight: bold; color: #16a34a; letter-spacing: 6px; text-align: center; padding: 16px; background: #f0fdf4; border-radius: 8px; margin: 24px 0;">
-                                {verification.code}
-                            </div>
-                            <p style="color: #64748b; font-size: 14px;">This code expires in 24 hours.</p>
-                            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
-                            <p style="color: #94a3b8; font-size: 12px;">If you did not initiate this request, please disregard this email safely.</p>
+                url = "https://api.brevo.com/v3/smtp/email"
+                headers = {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "api-key": brevo_key
+                }
+                
+                html_content = f"""
+                    <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <h2 style="color: #16a34a; margin-bottom: 4px;">Holland Greentech Ghana</h2>
+                        <h3 style="color: #475569; margin-top: 0; font-weight: normal;">LogTracker Account Verification</h3>
+                        <p>Hi {username},</p>
+                        <p>Thank you for signing up. Use the verification code below to activate your account:</p>
+                        <div style="font-size: 32px; font-weight: bold; color: #16a34a; letter-spacing: 6px; text-align: center; padding: 16px; background: #f0fdf4; border-radius: 8px; margin: 24px 0;">
+                            {verification.code}
                         </div>
-                    """
-                })
+                        <p style="color: #64748b; font-size: 14px;">This code expires in 24 hours.</p>
+                        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 20px 0;" />
+                        <p style="color: #94a3b8; font-size: 12px;">If you did not initiate this request, please disregard this email safely.</p>
+                    </div>
+                """
+
+                payload = {
+                    "sender": {
+                        "name": "Holland Greentech Ghana",
+                        "email": from_email
+                    },
+                    "to": [
+                        {
+                            "email": email,
+                            "name": username
+                        }
+                    ],
+                    "subject": "Verify your HGT LogTracker account",
+                    "htmlContent": html_content
+                }
+
+                response = requests.post(url, json=payload, headers=headers)
+                
+                # Force an exception if the API returns a bad status code (e.g., 401 Unauthorized, 400 Bad Request)
+                response.raise_for_status()
+
             except Exception as email_err:
-                print(f"Resend Core Engine Error: {str(email_err)}")
+                print(f"Brevo REST API Engine Error: {str(email_err)}")
                 # Hand back a clean 201 so the frontend handles registration tracking cleanly
                 return Response({
                     'message': 'Account created, but verification email failed to dispatch. Please attempt to resend code.',
