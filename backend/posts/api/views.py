@@ -267,6 +267,39 @@ class PasswordResetRequestView(APIView):
             return Response({'error': 'Failed to send recovery email. Please try again later.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response({'message': 'If an account matches that email, a verification code has been dispatched.'}, status=status.HTTP_200_OK)
+
+class PasswordResetConfirmView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        email = request.data.get('email')
+        code = request.data.get('code')
+        new_password = request.data.get('new_password')
+
+        if not all([email, code, new_password]):
+            return Response({'error': 'All fields (email, code, new password) are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({'error': 'User matching this email was not found.'}, status=status.HTTP_440_NOT_FOUND)
+
+        # Verify code validity
+        try:
+            verification = VerificationCode.objects.get(user=user, code=code)
+        except VerificationCode.DoesNotExist:
+            return Response({'error': 'Invalid or expired verification code.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Code is correct -> Update password safely
+        user.set_password(new_password)
+        user.save()
+        
+        # Burn token security data so old active sessions are forced to re-authenticate
+        Token.objects.filter(user=user).delete()
+        verification.delete()
+
+        return Response({'message': 'Password has been reset successfully! You can now log in.'}, status=status.HTTP_200_OK)
+
 # --- ViewSets for Farm Operations ---
 
 class IrrigationView(ModelViewSet):
