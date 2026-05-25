@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 
 function Login({setIsLoggedIn}) {
@@ -29,6 +30,7 @@ function Login({setIsLoggedIn}) {
         if (response.ok) {
             localStorage.setItem("token", data.token);
             console.log("login successful");
+            toast.success("login successful")
             setIsLoggedIn(true);
             navigate("/home"); // navigate to home page after successful login
         } else {

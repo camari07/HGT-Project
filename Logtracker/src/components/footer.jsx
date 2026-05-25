@@ -6,7 +6,7 @@ function Footer({ isLoggedIn, setIsLoggedIn }) {
     const navigate = useNavigate();
 
     return (
-        <div className="sticky bottom-0 w-full bg-gray-800 text-white p-6 mt-10">
+        <div className="w-full bg-gray-800 text-white p-6 mt-10">
             <div className="flex flex-col md:flex-row justify-center items-start md:items-center gap-6">
                 <div className="rounded-lg text-gray-800">
                     {isLoggedIn && (
@@ -19,7 +19,7 @@ function Footer({ isLoggedIn, setIsLoggedIn }) {
                 </div>
             </div>
 
-            <div className="border-t border-gray-700 mt-6 pt-4 text-center text-gray-500 text-xs">
+            <div className="border-t border-gray-700 max-h-1 text-center text-gray-500 text-xs">
                 © {new Date().getFullYear()} Holland Greentech. All rights reserved.
             </div>
         </div>
