@@ -33,7 +33,7 @@ function Signup() {
         if (response.ok) {
             localStorage.setItem("token", data.token);
             console.log("Signup successful:", data);
-            navigate("/");
+            navigate("/home");
         } else {
             console.error("Signup failed:", data);
         }
@@ -52,7 +52,7 @@ function Signup() {
                     <input className="block w-full p-2 border border-gray-300 rounded-md" value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" />
                     {/* <label htmlFor="confirm_password">Confirm Password</label> */}
                     {/* <input class="block" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirm Password" /> */}
-                    <button className=" bg-green-500 p-2 text-white rounded-md" type="submit">Sign Up</button>
+                    <button className=" bg-green-500 p-2 mt-2 text-white rounded-md" type="submit">Sign Up</button>
                 </form>
                 <Link to="/home">
                     <button >Already have an account? Login</button>
