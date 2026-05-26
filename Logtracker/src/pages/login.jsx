@@ -30,16 +30,17 @@ function Login({setIsLoggedIn}) {
         if (response.ok) {
             localStorage.setItem("token", data.token);
             console.log("login successful");
-            toast.success("login successful")
+            toast.success("login successful");
             setIsLoggedIn(true);
             navigate("/home"); // navigate to home page after successful login
         } else {
             console.error("login failed:", data);
+            toast.error("Login failed. Please check your credentials and try again.");
         };    
     }
 
     return (
-        <div className="grid place-items-center flex-1 h-screen">
+        <div className="grid place-items-center flex-1 min-h-screen px-4 py-6">
    
             <div className="grid bg-green-100 p-10 rounded-lg">
                 

@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
@@ -37,8 +38,8 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
         const data = await response.json();
         
         if (response.ok) {
-            alert("Irrigation log submitted successfully!");
             console.log("Irrigation log submitted successfully:", data);
+            toast.success("Irrigation log submitted successfully!");
             setFieldName("");
             setWaterAmount("");
             setWaterSource("Unknown");
@@ -46,8 +47,8 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
             setFilterType("None");
             setLeakage(false);
         } else {
-            alert("Failed to submit irrigation log.");
             console.error("Failed to submit irrigation log:", data);
+            toast.error("Failed to submit irrigation log. Please try again.");
         }
         
     }

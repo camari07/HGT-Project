@@ -8,11 +8,11 @@ import images from "../assets/images.jpeg";
 
 function Home() {
         return(
-         <div>  
-            <div className="flex">
+         <div className="px-4 py-4 sm:px-6 md:pb-10">  
+            <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center">
                 
-                <img className="mt-15  h-15 md:h-24 w-24" src={images} alt="hgt_logo" />
-                <h2 className="bg-red-100 pd-20">Welcome to the Home Page</h2>
+                <img className="h-16 w-16 object-contain sm:h-20 sm:w-20 md:h-24 md:w-24" src={images} alt="hgt_logo" />
+                <h2 className="px-4 py-2 text-center text-lg sm:text-left sm:text-xl">Welcome to the Home Page</h2>
             </div>
             <div className="flex flex-col md:flex-row justify-center md:justify-between mt-10 bg-white h-150">
                 

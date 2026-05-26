@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
@@ -34,9 +35,10 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
         const data = await response.json();
 
         if (response.ok) {
-            console.log("Submitted successfully")
-            setActivityType("")
-            setIrrigating("")
+            console.log("Submitted successfully");
+            toast.success("Farm activity log submitted successfully!");
+            setActivityType("");
+            setIrrigating("");
             setDescription("");
             setFertilizerUsed("");
             setCropCondition("");
