@@ -6,7 +6,7 @@ function Footer({ isLoggedIn, setIsLoggedIn }) {
     const navigate = useNavigate();
 
     return (
-        <div className="w-full bg-gray-800 text-white p-6 mt-10">
+        <div className="w-full bg-gray-800 text-white p-4 mt-10 md:sticky md:bottom-0">
             <div className="flex flex-col md:flex-row justify-center items-start md:items-center gap-6">
                 <div className="rounded-lg text-gray-800">
                     {isLoggedIn && (
@@ -16,6 +16,13 @@ function Footer({ isLoggedIn, setIsLoggedIn }) {
                             navigate={navigate}
                         />
                     )}
+                </div>
+                <div>
+                    <ul className="flex space-x-4">
+                        <li><Link to="/about">About Us</Link></li>
+                        <li>Dane</li>
+                        <li>Sane</li>
+                    </ul>
                 </div>
             </div>
 

@@ -9,37 +9,42 @@ import images from "../assets/images.jpeg";
 function Home() {
         return(
          <div className="px-4 py-4 sm:px-6 md:pb-10">  
-            <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-center">
+            <div className="flex flex-col items-center gap-2 sm:flex-row sm:items-center">
                 
-                <img className="h-16 w-16 object-contain sm:h-20 sm:w-20 md:h-24 md:w-24" src={images} alt="hgt_logo" />
-                <h2 className="px-4 py-2 text-center text-lg sm:text-left sm:text-xl">Welcome to the Home Page</h2>
+                <img className="h-14 w-14 object-contain sm:h-20 sm:w-20 md:h-24 md:w-24" src={images} alt="hgt_logo" />
+                <h2 className="px-4 py-2 text-center text-lg sm:text-left sm:text-xl">Select an Activity to Record</h2>
             </div>
-            <div className="flex flex-col md:flex-row justify-center md:justify-between mt-10 bg-white h-150">
+            <div className="mt-2 flex flex-col gap-4 bg-white sm:flex-row sm:flex-wrap sm:justify-center sm:gap-6
+            lg:flex-nowrap lg:justify-between">
                 
-                <div className="md:mr-5 md:w-1/4 flex flex-col items-center md:justify-between">
+                <div className="flex basis-full flex-col items-center sm:basis-[45%] lg:basis-1/4">
 
-                        <img className="ml-4 mt-0 md:mt-2 max-h-30 md:max-h-auto rounded object-contain " src={irrigationImg} alt="lorem ipsum" />
+                        <img className="h-32 w-auto max-w-full rounded-xl object-contain sm:h-40 md:h-44" src={irrigationImg} alt="Irrigation" />
                         <Link className="md:mb-100" to="/irrigation">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white ml-4 mt-2 rounded w-40">Irrigation Activity</button>
+                            <button className="mt-1 w-full max-w-[220px] rounded bg-blue-500 px-4 py-2 text-center text-white
+                            hover:bg-blue-700 sm:max-w-[160px]">Irrigation Activity</button>
                         </Link>
         
                 </div>
-                <div className="md:mr-5 mt-2 md:w-1/4 flex flex-col items-center md:justify-between">
-                        <img className="ml-4 max-h-30 md:max-h-auto object-contain " src={farmImg} alt="lorem ipsum" />
+                <div className="flex basis-full flex-col items-center sm:basis-[45%] lg:basis-1/4">
+                        <img className="h-32 w-auto max-w-full rounded-xl object-contain sm:h-40 md:h-44" src={farmImg} alt="maize farm" />
                         <Link className="md:mb-100" to="/farm">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white ml-4 mt-2 rounded w-40">Record Farm Activity</button>
+                            <button className="mt-1 w-full max-w-[220px] rounded bg-blue-500 px-4 py-2 text-center text-white
+                            hover:bg-blue-700 sm:max-w-[160px]">Record Farm Activity</button>
                         </Link>
                 </div>
-                <div className="md:mr-5 md:w-1/4 flex flex-col items-center md:justify-between">
-                        <img className="ml-4 mt-2 max-h-30 md:max-h-auto object-contain " src={maintenanceImg} alt="lorem ipsum" />
+                <div className="flex basis-full flex-col items-center sm:basis-[45%] lg:basis-1/4">
+                        <img className="h-32 w-auto max-w-full rounded-xl object-contain sm:h-40 md:h-44" src={maintenanceImg} alt="farm maintenance" />
                         <Link className="md:mb-100" to="/maintenance">
-                            <button className="bg-blue-500 hover:bg-blue-700 text-white ml-4 mt-2 rounded w-40">Maintenance Activity</button>
+                            <button className="mt-1 w-full max-w-[220px] rounded bg-blue-500 px-4 py-2 text-center text-white
+                            hover:bg-blue-700 sm:max-w-[160px]">Maintenance Activity</button>
                         </Link>
                 </div>
-                <div className="md:mr-5 md:w-1/4 flex flex-col items-center md:justify-between"> 
-                        <img className="ml-4 mt-2 max-h-30 md:max-h-auto object-contain " src="https://picsum.photos/536/354" alt="lorem ipsum" />
+                <div className="flex basis-full flex-col items-center sm:basis-[45%] lg:basis-1/4"> 
+                        <img className="h-32 w-auto max-w-full rounded-xl object-contain sm:h-40 md:h-44" src="https://picsum.photos/536/354" alt="lorem ipsum" />
                         <Link className="md:mb-100" to="/maintenance">
-                            <button className="bg-green-500 hover:bg-green-700 text-white ml-4 mt-2 rounded w-40">Report a problem</button>
+                            <button className="mt-1 w-full max-w-[220px] rounded bg-blue-500 px-4 py-2 text-center text-white
+                            hover:bg-blue-700 sm:max-w-[160px]">Report a problem</button>
                         </Link>
                 </div>
 
