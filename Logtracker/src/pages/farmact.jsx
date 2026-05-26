@@ -50,10 +50,10 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
     }
 
     return(
-        <div>
-            <div className="grid justify-items-center mt-20 w-full h-screen bg-green-100">
+        <div className="min-h-[100dvh] bg-green-100 px-4 py-6 sm:py-10">
+            <div className="mx-auto w-full max-w-lg">
                
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="w-full">
                     <label className="block text-sm font-medium text-gray-700" htmlFor="activityType">Activity Type</label>
                     <input className="block w-full p-2 border border-gray-300 rounded-md" type="text" placeholder="Enter activity Type" value={activityType} onChange={(e) => setActivityType(e.target.value)} />
                     <label className="block text-sm font-medium text-gray-700" htmlFor="irrigating">Irrigating</label>
@@ -63,7 +63,7 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
                     <label className="block text-sm font-medium text-gray-700" htmlFor="Fertilizer">Fertilizer</label>
                     <input className="block w-full p-2 border border-gray-300 rounded-md" type="text" name="Fertilizer" id="Fertilizer" placeholder="Enter fertilizer used (if any)" value={fertilizerUsed} onChange={(e) => setFertilizerUsed(e.target.value)} />
                     <label className="block text-sm font-medium text-gray-700" htmlFor="CropCondition">Crop Condition</label>
-                    <select name="crop" id="" value={crop_condition} onChange={(e) => setCropCondition(e.target.value)}>
+                    <select className="block w-full rounded-md border border-gray-300 p-2" name="crop" id="" value={crop_condition} onChange={(e) => setCropCondition(e.target.value)}>
                         <option value="">Select crop condition</option>
                         <option value="Healthy">Healthy</option>
                         <option value="Slightly yellowing">Slightly yellowing</option>
@@ -72,11 +72,13 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
                         <option value="Spots on leaves">Spots on leaves</option>
                     </select>
                     
-                    <button className="block cursor-pointer bg-green-500 text-white p-2 rounded-md mt-4 ml-18" type="submit">Submit</button>
-                
-                    <Link to="/home"> 
-                        <button className="block bg-gray-500 text-white p-2 rounded-md mt-4 ml-18">Go Back</button>
-                    </Link>                
+                    <div className="mt-4 flex flex-col gap-1 sm-flex-row">
+                        <button className="cursor-pointer w-full rounded-md bg-green-500 p-2 text-white sm:w-auto" type="submit">Submit</button>
+                    
+                        <Link to="/home"> 
+                            <button className="w-full rounded-md bg-gray-500 p-2 text-white">Go Back</button>
+                        </Link> 
+                    </div>               
                 </form>
             </div>
         </div>

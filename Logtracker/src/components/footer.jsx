@@ -26,7 +26,7 @@ function Footer({ isLoggedIn, setIsLoggedIn }) {
                 </div>
             </div>
 
-            <div className="border-t border-gray-700 max-h-1 text-center text-gray-500 text-xs">
+            <div className="mt-4 border-t border-gray-700 pt-3 max-h-1 text-center text-gray-500 text-xs">
                 © {new Date().getFullYear()} Holland Greentech. All rights reserved.
             </div>
         </div>

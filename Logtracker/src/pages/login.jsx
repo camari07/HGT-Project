@@ -40,9 +40,9 @@ function Login({setIsLoggedIn}) {
     }
 
     return (
-        <div className="grid place-items-center flex-1 min-h-screen px-4 py-6">
+        <div className="grid min-h-[100dvh] place-items-center px-4 py-6 sm:py-10">
    
-            <div className="grid bg-green-100 p-10 rounded-lg">
+            <div className="grid w-full max-w-md rounded-lg bg-green-100 p-4 sm:p-6 md:p-8">
                 
                 <form onSubmit={handleSubmit}>
                     <label className="text-justify " htmlFor="email">Email</label>
@@ -51,10 +51,10 @@ function Login({setIsLoggedIn}) {
                     <label className="text-left  " htmlFor="password">Password</label>
                     <input className="block w-full p-2 border border-gray-300 rounded-md" value={password} onChange={(e) => setPassword(e.target.value)} type="password" id="password" placeholder="your password" />
                     <br />
-                    <button className=" bg-green-500 p-2 text-white rounded-md" type="submit">Login</button>
+                    <button className="mt-2 w-full rounded-md bg-green-500 p-2 text-white sm:w-auto" type="submit">Login</button>
                 </form>
                 <Link to="/signup"> 
-                    <button className="">Don't have an account? Sign up</button>
+                    <button className="mt-3 text-sm sm:text-base">Don't have an account? Sign up</button>
                 </Link>
             </div>
         </div>
