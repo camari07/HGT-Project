@@ -23,58 +23,62 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const token = localStorage.getItem("token");
+        try {
+            const token = localStorage.getItem("token");
 
-        const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+            const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
         
-        const response = await fetch(`${BASE_URL}/api/irrigation/`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Token ${token}`,
-            },
-            body: JSON.stringify({
-                field_name: fieldName,
-                water_amount: waterAmount,
-                water_source: waterSource,
-                pump_used: pumpUsed,
-                filter_type: filterType,
-                leakage: leakage,
-                location: location,
-                farm_size: farmSize,
-                crop_type: cropType,
-                plant_growth_stage: plantGrowthStage,
-                irrigation_method: irrigationMethod,
-                irrigation_duration: irrigationDuration,
-                soil_type: soilType,
-                weather_conditions: weatherConditions
-            })
-        });
+            const response = await fetch(`${BASE_URL}/api/irrigation/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Token ${token}`,
+                },
+                body: JSON.stringify({
+                    field_name: fieldName,
+                    water_amount: waterAmount,
+                    water_source: waterSource,
+                    pump_used: pumpUsed,
+                    filter_type: filterType,
+                    leakage: leakage,
+                    location: location,
+                    farm_size: farmSize,
+                    crop_type: cropType,
+                    plant_growth_stage: plantGrowthStage,
+                    irrigation_method: irrigationMethod,
+                    irrigation_duration: irrigationDuration,
+                    soil_type: soilType,
+                    weather_conditions: weatherConditions
+                })
+            });
 
-        const data = await response.json();
-        
-        if (response.ok) {
-            console.log("Irrigation log submitted successfully:", data);
-            toast.success("Irrigation log submitted successfully!");
-            setFieldName("");
-            setWaterAmount("");
-            setWaterSource("Unknown");
-            setPumpUsed(false);
-            setFilterType("None");
-            setLeakage(false);
-            setCropType("Unknown");
-            setLocation("Unknown");
-            setFarmSize("");
-            setPlantGrowthStage("Unknown");
-            setIrrigationMethod("Unknown");
-            setIrrigationDuration("");
-            setSoilType("Unknown");
-            setWeatherConditions("Unknown");
-        } else {
-            console.error("Failed to submit irrigation log:", data);
-            toast.error("Failed to submit irrigation log. Please try again.");
+            const data = await response.json();
+            
+            if (response.ok) {
+                console.log("Irrigation log submitted successfully:", data);
+                toast.success("Irrigation log submitted successfully!");
+                setFieldName("");
+                setWaterAmount("");
+                setWaterSource("Unknown");
+                setPumpUsed(false);
+                setFilterType("None");
+                setLeakage(false);
+                setCropType("Unknown");
+                setLocation("Unknown");
+                setFarmSize("");
+                setPlantGrowthStage("Unknown");
+                setIrrigationMethod("Unknown");
+                setIrrigationDuration("");
+                setSoilType("Unknown");
+                setWeatherConditions("Unknown");
+            } else {
+                console.error("Failed to submit irrigation log:", data);
+                toast.error("Failed to submit irrigation log. Please try again.");
+            }
+        } catch (error) {
+            console.error("An error occurred while submitting the irrigation log:", error);
+            toast.error("An error occurred. Please try again.");
         }
-        
     }
 
     return(
