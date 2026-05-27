@@ -18,6 +18,8 @@ class SignupView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
+            first_name = serializer.validated_data['first_name']
+            last_name = serializer.validated_data['last_name']
             username = serializer.validated_data['username']
             email = serializer.validated_data['email']  
             password = serializer.validated_data['password']
@@ -25,7 +27,7 @@ class SignupView(APIView):
             if User.objects.filter(email=email).exists():
                 return JsonResponse({'error': 'Email already taken'}, status=400)
             
-            user = User.objects.create_user(username=username, email=email, password=password)
+            user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password)
             token, created = Token.objects.get_or_create(user=user)
             
             return Response({'message': 'User created successfully', 'token': token.key}, status=status.HTTP_201_CREATED)
@@ -39,7 +41,7 @@ class LoginView(APIView):
         try: 
             user = User.objects.get(email=email)
         except User.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_404_NOT_FOUND)
         
         user = authenticate(request, username=user.username, password=password)
         
