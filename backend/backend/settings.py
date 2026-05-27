@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
 CORS_ALLOWED_ORIGINS = [
     "https://logtracker-frontend.onrender.com",
+
 ]
 
 CORS_ALLOW_CREDENTIALS = True
