@@ -9,6 +9,7 @@ import ProfilePage from './pages/profile'
 import Maintenance from './pages/maintenance'
 import React from "react";
 import Irrigation from './pages/irrigation'
+import Report from './pages/report'
 import ProtectedRoute from './components/protectroute'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
@@ -59,6 +60,12 @@ function App() {
             <ProtectedRoute isLoggedIn={isLoggedIn}>
               <Maintenance />
             </ProtectedRoute>
+          </Layout>} />
+        <Route path="/report" element={
+          <Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
+
+              <Report />
+
           </Layout>} />
       </Routes>
     </Router>

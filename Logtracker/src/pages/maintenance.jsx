@@ -68,18 +68,3 @@ function Maintenance() {
 export default Maintenance;
 
 
-<form onSubmit={handleSubmit}>
-                <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="equipment_name">Equipment Name:</label>
-                <input type="text" id="equipment_name" value={equipment_name} onChange={(e) => setEquipmentName(e.target.value)} required />
-
-                <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="maintenance_type">Maintenance Type:</label>
-                <input type="text" id="maintenance_type" value={maintenance_type} onChange={(e) => setMaintenanceType(e.target.value)} required />
-
-                <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="description">Description:</label>
-                <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
-                <button type="submit">Submit Request</button>
-
-                <Link to="/home"> 
-                        <button className="block bg-gray-500 text-white p-2 rounded-md mt-4 ml-18">Go Back</button>
-                </Link>
-            </form>
