@@ -5,19 +5,19 @@ import { Link } from "react-router-dom";
 
 function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
     const [fieldName, setFieldName] = useState("");
-    const [location, setLocation] = useState("Unknown");
+    const [location, setLocation] = useState("");
     const [farmSize, setFarmSize] = useState("");
-    const [cropType, setCropType] = useState("Unknown");
-    const [plantGrowthStage, setPlantGrowthStage] = useState("Unknown");
-    const [irrigationMethod, setIrrigationMethod] = useState("Unknown");
+    const [cropType, setCropType] = useState("");
+    const [plantGrowthStage, setPlantGrowthStage] = useState("");
+    const [irrigationMethod, setIrrigationMethod] = useState("");
     const [irrigationDuration, setIrrigationDuration] = useState("");
     const [waterAmount, setWaterAmount] = useState("");
     const [waterSource, setWaterSource] = useState("Unknown");
     const [pumpUsed, setPumpUsed] = useState(false);
     const [fertilizerUsed, setFertilizerUsed] = useState("None");
     const [filterType, setFilterType] = useState("None");
-    const [soilType, setSoilType] = useState("Unknown");
-    const [weatherConditions, setWeatherConditions] = useState("Unknown");
+    const [soilType, setSoilType] = useState("");
+    const [weatherConditions, setWeatherConditions] = useState("");
     const [leakage, setLeakage] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -169,7 +169,7 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                     
                     <label htmlFor="weathercondition">Weather Condition</label>
                     <select className="block w-full rounded-md border border-gray-300 p-2" name="weathercondition" id="weathercondition" value={weatherConditions} onChange={(e) => setWeatherConditions(e.target.value)}>
-                        <option value="Unknown">Unknown</option>
+                        <option value="" disabled>Select an option</option>
                         <option value="Sunny">Sunny</option>
                         <option value="Cloudy">Cloudy</option>
                         <option value="Rainy">Rainy</option>
