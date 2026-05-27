@@ -42,7 +42,7 @@ function Home() {
                 </div>
                 <div className="flex basis-full flex-col items-center sm:basis-[45%] lg:basis-1/4"> 
                         <img className="h-32 w-auto max-w-full rounded-xl object-contain sm:h-40 md:h-44" src="https://picsum.photos/536/354" alt="lorem ipsum" />
-                        <Link className="md:mb-100" to="/maintenance">
+                        <Link className="md:mb-100" to="/report">
                             <button className="mt-1 w-full max-w-[220px] rounded bg-blue-500 px-4 py-2 text-center text-white
                             hover:bg-blue-700 sm:max-w-[160px]">Report a problem</button>
                         </Link>

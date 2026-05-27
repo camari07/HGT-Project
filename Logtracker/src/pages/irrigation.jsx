@@ -19,10 +19,11 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
     const [soilType, setSoilType] = useState("Unknown");
     const [weatherConditions, setWeatherConditions] = useState("Unknown");
     const [leakage, setLeakage] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setIsLoading(true);
         try {
             const token = localStorage.getItem("token");
 
@@ -78,6 +79,8 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
         } catch (error) {
             console.error("An error occurred while submitting the irrigation log:", error);
             toast.error("An error occurred. Please try again.");
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -101,7 +104,8 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                     <input className="block w-full p-2 border border-gray-300 rounded-md" type="text" id="croptype" placeholder="Crop type" value={cropType} onChange={(e) => setCropType(e.target.value)} />
                     
                     <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="plantgrowthstage">Plant Growth Stage</label>
-                    <select name="plantgrowthstage" id="plantgrowthstage" value={plantGrowthStage} onChange={(e) => setPlantGrowthStage(e.target.value)}>
+                    <select className="block w-full rounded-md border border-gray-300 p-2" name="plantgrowthstage" id="plantgrowthstage" value={plantGrowthStage} onChange={(e) => setPlantGrowthStage(e.target.value)}>
+                        <option value="" disabled>Select an option</option>
                         <option value="Seedling">Seedling</option>
                         <option value="Vegetative">Vegetative</option>
                         <option value="Flowering">Flowering</option>
@@ -109,7 +113,8 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                     </select>
 
                     <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="irrigationmethod">Irrigation Method</label>
-                    <select name="irrigationmethod" id="irrigationmethod" value={irrigationMethod} onChange={(e) => setIrrigationMethod(e.target.value)}>
+                    <select className="block w-full rounded-md border border-gray-300 p-2" name="irrigationmethod" id="irrigationmethod" value={irrigationMethod} onChange={(e) => setIrrigationMethod(e.target.value)}>
+                        <option value="" disabled>Select an option</option>
                         <option value="Drip">Drip</option>
                         <option value="Sprinkler">Sprinkler</option>
                         <option value="Flood">Flood</option>
@@ -125,6 +130,7 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                     
                     <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="water_source">Water Source</label>
                     <select className="block w-full rounded-md border border-gray-300 p-2" name="water_source" id="water_source" value={waterSource} onChange={(e) => setWaterSource(e.target.value)}>
+                        <option value="" disabled>Select an option</option>
                         <option value="Unknown">Unknown</option>
                         <option value="Well">Well</option>
                         <option value="Borehole">Borehole</option>
@@ -134,6 +140,7 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                    
                     <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="filter_type">Filter Type</label>
                     <select className="block w-full rounded-md border border-gray-300 p-2" name="filter_type" id="filter_type" value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+                        <option value="" disabled>Select an option</option>
                         <option value="None">None</option>
                         <option value="Screen">Screen</option>
                         <option value="Disc">Disc</option>
@@ -141,6 +148,7 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                     
                     <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="soiltype">Soil Type</label>
                     <select className="block w-full rounded-md border border-gray-300 p-2" name="soiltype" id="soiltype" value={soilType} onChange={(e) => setSoilType(e.target.value)}>
+                        <option value="" disabled>Select an option</option>
                         <option value="Sandy">Sandy</option>
                         <option value="Clay">Clay</option>
                         <option value="Loam">Loam</option>
@@ -148,6 +156,7 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
 
                     <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="pump_used">Pump Used</label>
                     <select className="block w-full rounded-md border border-gray-300 p-2" name="pump_used" id="pump_used" value={pumpUsed} onChange={(e) => setPumpUsed(e.target.value)}>
+                        <option value="" disabled>Select an option</option>
                         <option value="False">No</option>
                         <option value="True">Yes</option>
                     </select>
@@ -167,7 +176,13 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                     </select>
                     
                     <div className="mt-4 flex flex-col gap-1 sm-flex-row">
-                        <button className="w-full rounded-md bg-green-500 p-2 text-white sm:w-auto" type="submit">Submit Irrigation Log</button>
+                        <button disabled={isLoading} className="w-full rounded-md bg-green-500 p-2 text-white sm:w-auto" type="submit">
+                            {isLoading ? "Submitting" : "Submit Irrigation Log"}
+                        </button>
+                        <a href="https://wa.me/2330505174412?text=Here%20is%20my%20farm%20activity%20photo"
+                                target="_blank"rel="noopener noreferrer">
+                                <button className="block bg-green-500 text-white p-2 rounded-md mt-4" >Submit Photo via WhatsApp</button>
+                        </a>
                         <Link to="/home"> 
                             <button className="w-full rounded-md bg-gray-500 p-2 text-white">Go Back</button>
                         </Link>

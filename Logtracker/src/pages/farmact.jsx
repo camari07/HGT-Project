@@ -11,59 +11,73 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
     const [pestObservations, setPestObservations] = useState("");
     const [pestControlMeasures, setPestControlMeasures] = useState("");
     const [activityType, setActivityType] = useState("");
-    const [irrigating, setIrrigating] = useState("");
+    const [irrigating, setIrrigating] = useState("False");
     const [description, setDescription] = useState("");
     const [fertilizerUsed, setFertilizerUsed] = useState("");
     const [crop_condition, setCropCondition] = useState("");
     const [location, setLocation] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
         const token = localStorage.getItem("token");
 
-        const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+        try{const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-        const response = await fetch(`${BASE_URL}/api/farm/`, {
-            method: "POST",
-            headers: {
-                "Content-Type" : "application/json",
-                "Authorization" : `Token ${token}`,
-            },
-            body: JSON.stringify({
-                activity_type: activityType,
-                irrigating: irrigating,
-                description: description,
-                fertilizer_used: fertilizerUsed,
-                crop_condition: crop_condition,
-                farm_size: farmSize,
-                crop: crop,
-                location: location,
-                plant_growth_stage: plantGrowthStage,
-                condition_of_irrigation_system: conditionOfIrrigationSystem,
-                pest_observations: pestObservations,
-                pest_control_measures: pestControlMeasures,
-            })
-        });
+            const response = await fetch(`${BASE_URL}/api/farm/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json",
+                    "Authorization" : `Token ${token}`,
+                },
+                body: JSON.stringify({
+                    activity_type: activityType,
+                    irrigating: irrigating,
+                    description: description,
+                    fertilizer_used: fertilizerUsed,
+                    crop_condition: crop_condition,
+                    farm_size: farmSize,
+                    crop: crop,
+                    location: location,
+                    plant_growth_stage: plantGrowthStage,
+                    condition_of_irrigation_system: conditionOfIrrigationSystem,
+                    pest_observations: pestObservations,
+                    pest_control_measures: pestControlMeasures,
+                })
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (response.ok) {
-            console.log("Submitted successfully");
-            toast.success("Farm activity log submitted successfully!");
-            setActivityType("");
-            setIrrigating("");
-            setDescription("");
-            setFertilizerUsed("");
-            setCropCondition("");
+            if (response.ok) {
+                console.log("Submitted successfully");
+                toast.success("Farm activity log submitted successfully!");
+                setActivityType("");
+                setIrrigating("False");
+                setDescription("");
+                setFertilizerUsed("");
+                setCropCondition("");
+                setFarmSize("");
+                setCrop("");
+                setLocation("");
+                setPlantGrowthStage("");
+                setConditionOfIrrigationSystem("");
+                setPestObservations("");
+                setPestControlMeasures("");
 
-        } else {
-            console.log("failed to submit")
+            } else {
+                console.log("failed to submit")
+                toast.error("Failed to submit farm activity log. Please try again.");
+            } 
+        } catch (error) {
+                console.error("An error occurred while submitting the farm activity log:", error);
+                toast.error("An error occurred. Please try again.");
+            } finally {
+                setIsLoading(false);
+            }
         }
-
-    }
-
     return(
         <div className="min-h-[100dvh] bg-green-100 px-4 py-6 sm:py-10">
             <div className="mx-auto w-full max-w-lg">
@@ -94,7 +108,7 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
                     
                     
                     <label className="block text-sm font-medium text-gray-700" htmlFor="conditionofirrigation">Condition of Irrigation</label>
-                    <select className="block w-full rounded-md border border-gray-300 p-2" name="conditionofirrigation" id="" value={conditionOfIrrigation} onChange={(e) => setConditionOfIrrigation(e.target.value)}>
+                    <select className="block w-full rounded-md border border-gray-300 p-2" name="conditionofirrigation" id="" value={conditionOfIrrigationSystem} onChange={(e) => setConditionOfIrrigationSystem(e.target.value)}>
                         <option value="">Select condition of irrigation</option>
                         <option value="Good">Good</option>
                         <option value="Leakages">Leakages</option>
@@ -124,7 +138,7 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
                     </select>
                     
                     <label className="block text-sm font-medium text-gray-700" htmlFor="PestObservations">Pest or Disease Observations</label>
-                    <select className="block w-full rounded-md border border-gray-300 p-2" name="pestobserved" id="" value={pestObserved} onChange={(e) => setPestObserved(e.target.value)}>
+                    <select className="block w-full rounded-md border border-gray-300 p-2" name="pestobserved" id="" value={pestObservations} onChange={(e) => setPestObservations(e.target.value)}>
                         <option value="">Select pest or disease observations</option>
                         <option value="None">None</option>
                         <option value="Aphids">Aphids</option>
@@ -152,8 +166,13 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
 
 
                     <div className="mt-4 flex flex-col gap-1 sm-flex-row">
-                        <button className="cursor-pointer w-full rounded-md bg-green-500 p-2 text-white sm:w-auto" type="submit">Submit</button>
-                    
+                        <button disabled={isLoading} className="cursor-pointer w-full rounded-md bg-green-500 p-2 text-white sm:w-auto" type="submit">
+                            {isLoading ? "Submitting" : "Submit"}
+                        </button>
+                        <a href="https://wa.me/2330505174412?text=Here%20is%20my%20farm%20activity%20photo"
+                                target="_blank"rel="noopener noreferrer">
+                                <button className="block bg-green-500 text-white p-2 rounded-md mt-4" >Submit Photo via WhatsApp</button>
+                        </a>
                         <Link to="/home"> 
                             <button className="w-full rounded-md bg-gray-500 p-2 text-white">Go Back</button>
                         </Link> 
@@ -163,6 +182,6 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
         </div>
     )
 
-}
+};
 
 export default FarmActivity
