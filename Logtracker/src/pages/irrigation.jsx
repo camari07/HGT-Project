@@ -185,9 +185,9 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                         </Link>
                     </div>
                 </form>
-                <a href="https://wa.me/2330505174412?text=Here%20is%20my%20farm%20activity%20photo"
+                <a href="https://wa.me/2330505174412?text=Here%20is%20my%20irrigation%20activity%20photo"
                                 target="_blank"rel="noopener noreferrer">
-                                <button className="block bg-green-500 text-white p-2 rounded-md mt-4" >Submit Photo via WhatsApp</button>
+                                <button className="cursor-pointer w-full rounded-md bg-green-500 p-2 text-white sm:w-auto" >Submit Photo via WhatsApp</button>
                  </a>
             </div>
         </div>

@@ -169,13 +169,14 @@ function FarmActivity ({ isLoggedIn, setIsLoggedIn }) {
                         <button disabled={isLoading} className="cursor-pointer w-full rounded-md bg-green-500 p-2 text-white sm:w-auto" type="submit">
                             {isLoading ? "Submitting" : "Submit"}
                         </button>
-                        <a href="https://wa.me/2330505174412?text=Here%20is%20my%20farm%20activity%20photo"
-                                target="_blank"rel="noopener noreferrer">
-                                <button className="block bg-green-500 text-white p-2 rounded-md mt-4" >Submit Photo via WhatsApp</button>
-                        </a>
+                        
                         <Link to="/home"> 
                             <button className="w-full rounded-md bg-gray-500 p-2 text-white">Go Back</button>
                         </Link> 
+                        <a href="https://wa.me/2330505174412?text=Here%20is%20my%20farm%20activity%20photo"
+                                target="_blank"rel="noopener noreferrer">
+                                <button className="cursor-pointer w-full rounded-md bg-green-500 p-2 text-white sm:w-auto" >Submit Photo via WhatsApp</button>
+                        </a>
                     </div>               
                 </form>
             </div>
