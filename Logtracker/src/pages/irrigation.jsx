@@ -60,18 +60,18 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                 toast.success("Irrigation log submitted successfully!");
                 setFieldName("");
                 setWaterAmount("");
-                setWaterSource("Unknown");
+                setWaterSource("");
                 setPumpUsed(false);
                 setFilterType("None");
                 setLeakage(false);
-                setCropType("Unknown");
-                setLocation("Unknown");
+                setCropType("");
+                setLocation("");
                 setFarmSize("");
-                setPlantGrowthStage("Unknown");
-                setIrrigationMethod("Unknown");
+                setPlantGrowthStage("");
+                setIrrigationMethod("");
                 setIrrigationDuration("");
-                setSoilType("Unknown");
-                setWeatherConditions("Unknown");
+                setSoilType("");
+                setWeatherConditions("");
             } else {
                 console.error("Failed to submit irrigation log:", data);
                 toast.error("Failed to submit irrigation log. Please try again.");
