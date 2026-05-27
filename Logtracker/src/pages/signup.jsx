@@ -48,9 +48,9 @@ function Signup() {
             <div className="grid justify-items-center bg-green-100 p-10 rounded-lg">
                 <form onSubmit={handleSubmit}>
                     <h2>Sign Up to Holland Greentech LogTracker</h2>
-                    <label htmlFor="firstname">First Name</label>
+                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="firstname">First Name</label>
                     <input className="w-full p-2 border border-gray-300 rounded-md" value={firstname} onChange={(e) => setFirstname(e.target.value)} type="text" placeholder="First Name" />
-                    <label htmlFor="lastname">Last Name</label>
+                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="lastname">Last Name</label>
                     <input className="w-full p-2 border border-gray-300 rounded-md" value={lastname} onChange={(e) => setLastname(e.target.value)} type="text" placeholder="Last Name" />
                     <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="Username">User Name</label>
                     <input className="w-full p-2 border border-gray-300 rounded-md" value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username" />

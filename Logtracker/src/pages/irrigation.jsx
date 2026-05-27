@@ -87,16 +87,16 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                     <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="fieldname">Field Name</label>
                     <input className="block w-full p-2 border border-gray-300 rounded-md" type="text" id="fieldname" placeholder="Field name" value={fieldName} onChange={(e) => setFieldName(e.target.value)} />
 
-                    <label htmlFor="location">Location</label>
+                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="location">Location</label>
                     <input className="block w-full p-2 border border-gray-300 rounded-md" type="text" id="location" placeholder="Location" value={location} onChange={(e) => setLocation(e.target.value)} />
                     
-                    <label htmlFor="farmsize">Farm Size (acres)</label>
+                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="farmsize">Farm Size (acres)</label>
                     <input className="block w-full p-2 border border-gray-300 rounded-md" type="number" id="farmsize" placeholder="Farm size in acres" value={farmSize} onChange={(e) => setFarmSize(e.target.value)} />
                     
-                    <label htmlFor="croptype">Crop Type</label>
+                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="croptype">Crop Type</label>
                     <input className="block w-full p-2 border border-gray-300 rounded-md" type="text" id="croptype" placeholder="Crop type" value={cropType} onChange={(e) => setCropType(e.target.value)} />
                     
-                    <label htmlFor="plantgrowthstage">Plant Growth Stage</label>
+                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="plantgrowthstage">Plant Growth Stage</label>
                     <select name="plantgrowthstage" id="plantgrowthstage" value={plantGrowthStage} onChange={(e) => setPlantGrowthStage(e.target.value)}>
                         <option value="Seedling">Seedling</option>
                         <option value="Vegetative">Vegetative</option>
@@ -104,14 +104,14 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                         <option value="Fruiting">Fruiting</option>
                     </select>
 
-                    <label htmlFor="irrigationmethod">Irrigation Method</label>
+                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="irrigationmethod">Irrigation Method</label>
                     <select name="irrigationmethod" id="irrigationmethod" value={irrigationMethod} onChange={(e) => setIrrigationMethod(e.target.value)}>
                         <option value="Drip">Drip</option>
                         <option value="Sprinkler">Sprinkler</option>
                         <option value="Flood">Flood</option>
                     </select>
 
-                    <label htmlFor="irrigationduration">Irrigation Duration (hours)</label>
+                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="irrigationduration">Irrigation Duration (hours)</label>
                     <input className="block w-full p-2 border border-gray-300 rounded-md" type="number" id="irrigationduration" placeholder="Irrigation duration in hours" value={irrigationDuration} onChange={(e) => setIrrigationDuration(e.target.value)} />
 
 

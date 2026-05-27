@@ -38,9 +38,37 @@ function Maintenance() {
     };
 
     return (
-        <div className="maintenance-container">
-           <div className="mt-20">
-            <form onSubmit={handleSubmit}>
+        <div className="min-h-[100dvh] bg-green-100 px-4 py-6 sm:py-10">
+                <div className="mx-auto w-full max-w-lg">
+
+                    <form onSubmit={handleSubmit} className="w-full">
+                        <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="equipment_name">Equipment Name:</label>
+                        <input className="block w-full p-2 border border-gray-300 rounded-md" type="text" id="equipment_name" value={equipment_name} onChange={(e) => setEquipmentName(e.target.value)} required />
+
+                        <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="maintenance_type">Maintenance Type:</label>
+                        <input className="block w-full p-2 border border-gray-300 rounded-md" type="text" id="maintenance_type" value={maintenance_type} onChange={(e) => setMaintenanceType(e.target.value)} required />
+
+                        <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="description">Description:</label>
+                        <textarea className="block w-full p-2 border border-gray-300 rounded-md" id="description" value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
+                        
+                        <button className="block bg-green-500 text-white p-2 rounded-md mt-4" type="submit">Submit Request</button>
+
+                        <Link to="/home"> 
+                                <button className="block bg-gray-500 text-white p-2 rounded-md mt-4 ml-18">Go Back</button>
+                        </Link>
+                    </form>
+                </div>
+        </div>
+
+                        
+
+    );
+}
+
+export default Maintenance;
+
+
+<form onSubmit={handleSubmit}>
                 <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="equipment_name">Equipment Name:</label>
                 <input type="text" id="equipment_name" value={equipment_name} onChange={(e) => setEquipmentName(e.target.value)} required />
 
@@ -55,10 +83,3 @@ function Maintenance() {
                         <button className="block bg-gray-500 text-white p-2 rounded-md mt-4 ml-18">Go Back</button>
                 </Link>
             </form>
-        </div>
-
-        </div>
-    );
-}
-
-export default Maintenance;

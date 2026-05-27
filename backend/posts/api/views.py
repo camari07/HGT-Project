@@ -8,7 +8,8 @@ from rest_framework.authtoken.models import Token
 from posts.models import Irrigation as IrrigationModel
 from posts.models import Maintenance
 from posts.models import Farm 
-from .serializers import UserSerializer, IrrigationSerializer, FarmSerializer, MaintenanceSerializer
+from posts.models import Report
+from .serializers import UserSerializer, IrrigationSerializer, FarmSerializer, MaintenanceSerializer, ReportSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -84,6 +85,18 @@ class MaintenanceView(ModelViewSet):
 
     def get_queryset(self):
         return Maintenance.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class ReportView(ModelViewSet):
+    serializer_class = ReportSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    queryset = Report.objects.all()
+
+    def get_queryset(self):
+        return Report.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

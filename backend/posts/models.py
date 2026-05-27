@@ -56,3 +56,14 @@ class Maintenance(models.Model):
     def __str__(self):
         return f"{self.equipment_name} - {self.maintenance_type} at {self.timestamp}"
     
+class Report(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    problem_type = models.CharField(max_length=255)
+    description = models.TextField()
+    contact_info = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} at {self.timestamp}"

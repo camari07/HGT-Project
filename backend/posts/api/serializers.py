@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from ..models import Irrigation, Farm, Maintenance
+from ..models import Irrigation, Farm, Maintenance, Report
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.hashers import make_password
@@ -29,11 +29,17 @@ class IrrigationSerializer(ModelSerializer):
 class FarmSerializer(ModelSerializer):
     class Meta:
         model = Farm
-        fields = ["id","user", "activity_type","crop","location", "farm_size", "crop_type", "plant_growth_stage", "condition_of_irrigation_system", "irrigating", "description", "fertilizer_used", "crop_condition", "pest_observations", "pest_control_measures", "timestamp"]
+        fields = ["id","user", "activity_type","crop","location", "farm_size", "plant_growth_stage", "condition_of_irrigation_system", "irrigating", "description", "fertilizer_used", "crop_condition", "pest_observations", "pest_control_measures", "timestamp"]
         extra_kwargs = {"user": {"read_only": True}}
 
 class MaintenanceSerializer(ModelSerializer):
     class Meta:
         model = Maintenance
         fields = ["id","user", "equipment_name", "maintenance_type", "description", "timestamp"]
+        extra_kwargs = {"user": {"read_only": True}}
+
+class ReportSerializer(ModelSerializer):
+    class Meta:
+        model = Report
+        fields = ["id","user", "report_type", "description", "timestamp"]
         extra_kwargs = {"user": {"read_only": True}}

@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Farm, Irrigation, Maintenance
+from .models import Farm, Irrigation, Maintenance, Report
 
 # Register your models here.
 admin.site.register(Irrigation)
 admin.site.register(Farm)
 admin.site.register(Maintenance)
+admin.site.register(Report)
 
