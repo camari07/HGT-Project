@@ -23,7 +23,7 @@ class UserSerializer(ModelSerializer):
 class IrrigationSerializer(ModelSerializer):
     class Meta:
         model = Irrigation
-        fields = ["id","user", "field_name","location", "farm_size", "crop_type","soil_type", "weather_condition", "plant_growth_stage", "irrigation_method", "irrigation_duration", "water_amount", "water_source", "pump_used","filter_type", "leakage", "timestamp"]
+        fields = ["id","user", "field_name","location", "farm_size", "crop_type","soil_type", "weather_conditions", "plant_growth_stage", "irrigation_method", "irrigation_duration", "water_amount", "water_source", "pump_used","filter_type", "leakage", "timestamp"]
         extra_kwargs = {"user": {"read_only": True}}
 
 class FarmSerializer(ModelSerializer):
