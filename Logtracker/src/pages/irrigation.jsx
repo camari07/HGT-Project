@@ -167,7 +167,7 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
                         <option value="True">Yes</option>
                     </select>
                     
-                    <label htmlFor="weathercondition">Weather Condition</label>
+                    <label className="block text-sm font-medium text-gray-700 text-left py-2" htmlFor="weathercondition">Weather Condition</label>
                     <select className="block w-full rounded-md border border-gray-300 p-2" name="weathercondition" id="weathercondition" value={weatherConditions} onChange={(e) => setWeatherConditions(e.target.value)}>
                         <option value="" disabled>Select an option</option>
                         <option value="Sunny">Sunny</option>

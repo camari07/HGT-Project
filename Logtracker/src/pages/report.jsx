@@ -76,6 +76,9 @@ function Report() {
 
                   <button className="block bg-green-500 text-white p-2 rounded-md mt-4" type="submit">Submit Report</button>
                </form>
+               <Link to="/home"> 
+                            <button className="w-full rounded-md bg-gray-500 p-2 text-white">Go Back</button>
+               </Link>
             </div>
          </div>
       );
