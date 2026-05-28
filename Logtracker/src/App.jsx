@@ -63,9 +63,9 @@ function App() {
           </Layout>} />
         <Route path="/report" element={
           <Layout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}>
-
+            <ProtectedRoute isLoggedIn={isLoggedIn}>
               <Report />
-
+            </ProtectedRoute>
           </Layout>} />
       </Routes>
     </Router>
