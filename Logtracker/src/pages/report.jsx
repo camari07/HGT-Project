@@ -32,7 +32,7 @@ function Report() {
                 contact: contactInfo
             })
         })
-        const data = response.json();
+        const data = await response.json();
 
             if (response.ok) { console.log("Report submitted successfully:", data);
                 toast.success("Report submitted successfully");
