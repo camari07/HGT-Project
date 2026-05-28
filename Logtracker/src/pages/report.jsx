@@ -29,7 +29,7 @@ function Report() {
                 title: title,
                 problem_type: problemType,
                 description: description,
-                contact: contactInfo
+                contact_info: contactInfo
             })
         })
         const data = await response.json();
