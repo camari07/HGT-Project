@@ -41,5 +41,5 @@ class MaintenanceSerializer(ModelSerializer):
 class ReportSerializer(ModelSerializer):
     class Meta:
         model = Report
-        fields = ["id","user", "report_type", "description", "timestamp"]
+        fields = ["id","user","title", "problem_type", "description","contact_info", "timestamp"]
         extra_kwargs = {"user": {"read_only": True}}
