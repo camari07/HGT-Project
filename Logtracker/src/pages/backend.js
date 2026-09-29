@@ -184,3 +184,46 @@ export async function signOut() {
   localStorage.removeItem("token");
   localStorage.removeItem("auth_provider");
 }
+
+function profileFromSupabaseUser(user) {
+  const metadata = user?.user_metadata || {};
+  return {
+    first_name: metadata.first_name || "",
+    last_name: metadata.last_name || "",
+    username: metadata.username || "",
+    email: user?.email || "",
+    joined_at: user?.created_at || null,
+    last_sign_in_at: user?.last_sign_in_at || null,
+    email_confirmed: Boolean(user?.email_confirmed_at),
+  };
+}
+ 
+export async function getProfile() {
+  const supabase = getSupabase();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+ 
+  if (error || !user) {
+    throw new Error("Your session has expired. Please sign in again.");
+  }
+ 
+  return profileFromSupabaseUser(user);
+}
+ 
+export async function updateProfile({ first_name, last_name, username }) {
+  const supabase = getSupabase();
+  // Name and username live in user metadata, the same place signUp stores them.
+  const { data, error } = await supabase.auth.updateUser({
+    data: { first_name, last_name, username },
+  });
+ 
+  if (error) throw error;
+  if (!data?.user) {
+    throw new Error("Your session has expired. Please sign in again.");
+  }
+ 
+  return profileFromSupabaseUser(data.user);
+}
+ 
