@@ -3,6 +3,33 @@ import { useNavigate, Link } from "react-router-dom";
 import LogoutButton from "./logoutbutton";
 
 function Footer({ isLoggedIn, setIsLoggedIn }) {
+  const navigate = useNavigate();
+
+  return (
+    <footer className="mt-auto border-t border-slate-700 bg-slate-950 text-white">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-6 sm:flex-row sm:justify-between sm:px-6 lg:px-8">
+        <p className="text-center text-sm text-slate-300 sm:text-left">
+          © {new Date().getFullYear()} Holland Greentech. All rights reserved.
+        </p>
+
+        {isLoggedIn && (
+          <div className="w-full sm:w-auto">
+            <LogoutButton
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+              navigate={navigate}
+            />
+          </div>
+        )}
+      </div>
+    </footer>
+  );
+}
+
+export default Footer;
+
+/*
+function Footer({ isLoggedIn, setIsLoggedIn }) {
     const navigate = useNavigate();
 
     return (
@@ -34,3 +61,4 @@ function Footer({ isLoggedIn, setIsLoggedIn }) {
 }
 
 export default Footer;
+*/

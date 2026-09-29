@@ -1,3 +1,194 @@
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { createRecord } from "./backend";
+import {
+  FormActions,
+  FormPage,
+  FormSection,
+  InlineError,
+  inputClass,
+  labelClass,
+} from "./FormLayout";
+
+const initialValues = {
+  field_name: "",
+  location: "",
+  farm_size: "",
+  crop_type: "",
+  plant_growth_stage: "",
+  irrigation_method: "",
+  irrigation_duration: "",
+  water_amount: "",
+  water_source: "Unknown",
+  pump_used: false,
+  fertilizer_used: "None",
+  filter_type: "None",
+  soil_type: "",
+  weather_conditions: "",
+  leakage: false,
+};
+
+function Irrigation() {
+  const [values, setValues] = useState(initialValues);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const update = (key) => (event) => {
+    const value = event.target.type === "checkbox" ? event.target.checked : event.target.value;
+    setValues((current) => ({ ...current, [key]: value }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
+    setIsSubmitting(true);
+    try {
+      await createRecord("irrigation", {
+        ...values,
+        farm_size: values.farm_size ? Number(values.farm_size) : null,
+        irrigation_duration: values.irrigation_duration ? Number(values.irrigation_duration) : null,
+        water_amount: values.water_amount ? Number(values.water_amount) : null,
+      });
+      setValues(initialValues);
+      toast.success("Irrigation log saved");
+    } catch (requestError) {
+      setError(requestError?.message || "Unable to save the irrigation log.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <FormPage
+      eyebrow="Water management"
+      title="Log irrigation"
+      description="Record when, how and how much water was applied to each field."
+    >
+      <form onSubmit={handleSubmit}>
+        <FormSection title="Field details" description="Identify the field, crop and current conditions.">
+          <div>
+            <label className={labelClass} htmlFor="fieldName">Field name</label>
+            <input className={inputClass} id="fieldName" value={values.field_name} onChange={update("field_name")} placeholder="e.g. Pepper Block A" required />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="irrigationLocation">Location</label>
+            <input className={inputClass} id="irrigationLocation" value={values.location} onChange={update("location")} placeholder="e.g. Ada" required />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="irrigationFarmSize">Farm size (acres)</label>
+            <input className={inputClass} id="irrigationFarmSize" type="number" min="0" step="0.01" inputMode="decimal" value={values.farm_size} onChange={update("farm_size")} required />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="cropType">Crop type</label>
+            <input className={inputClass} id="cropType" value={values.crop_type} onChange={update("crop_type")} placeholder="e.g. Cayenne pepper" required />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="irrigationGrowthStage">Plant growth stage</label>
+            <select className={inputClass} id="irrigationGrowthStage" value={values.plant_growth_stage} onChange={update("plant_growth_stage")} required>
+              <option value="">Select a stage</option>
+              <option value="Seedling">Seedling</option>
+              <option value="Vegetative">Vegetative</option>
+              <option value="Flowering">Flowering</option>
+              <option value="Fruiting">Fruiting</option>
+              <option value="Harvesting">Harvesting</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="soilType">Soil type</label>
+            <select className={inputClass} id="soilType" value={values.soil_type} onChange={update("soil_type")} required>
+              <option value="">Select soil type</option>
+              <option value="Sandy">Sandy</option>
+              <option value="Clay">Clay</option>
+              <option value="Loam">Loam</option>
+              <option value="Sandy loam">Sandy loam</option>
+              <option value="Clay loam">Clay loam</option>
+            </select>
+          </div>
+        </FormSection>
+
+        <div className="my-7 border-t border-slate-200" />
+
+        <FormSection title="Irrigation event" description="Capture the system setup and application volume.">
+          <div>
+            <label className={labelClass} htmlFor="irrigationMethod">Irrigation method</label>
+            <select className={inputClass} id="irrigationMethod" value={values.irrigation_method} onChange={update("irrigation_method")} required>
+              <option value="">Select a method</option>
+              <option value="Drip">Drip</option>
+              <option value="Sprinkler">Sprinkler</option>
+              <option value="Flood">Flood</option>
+              <option value="Manual">Manual</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="waterSource">Water source</label>
+            <select className={inputClass} id="waterSource" value={values.water_source} onChange={update("water_source")}>
+              <option value="Unknown">Unknown</option>
+              <option value="Well">Well</option>
+              <option value="Borehole">Borehole</option>
+              <option value="Reservoir">Reservoir</option>
+              <option value="River">River</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="irrigationDuration">Duration (hours)</label>
+            <input className={inputClass} id="irrigationDuration" type="number" min="0" step="0.01" inputMode="decimal" value={values.irrigation_duration} onChange={update("irrigation_duration")} required />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="waterAmount">Water amount (litres)</label>
+            <input className={inputClass} id="waterAmount" type="number" min="0" step="0.01" inputMode="decimal" value={values.water_amount} onChange={update("water_amount")} required />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="filterType">Filter type</label>
+            <select className={inputClass} id="filterType" value={values.filter_type} onChange={update("filter_type")}>
+              <option value="None">None</option>
+              <option value="Screen">Screen</option>
+              <option value="Disc">Disc</option>
+              <option value="Sand media">Sand media</option>
+            </select>
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="fertilizerIrrigation">Fertilizer used</label>
+            <input className={inputClass} id="fertilizerIrrigation" value={values.fertilizer_used} onChange={update("fertilizer_used")} placeholder="Product and rate, or None" />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="weatherConditions">Weather condition</label>
+            <select className={inputClass} id="weatherConditions" value={values.weather_conditions} onChange={update("weather_conditions")} required>
+              <option value="">Select condition</option>
+              <option value="Sunny">Sunny</option>
+              <option value="Cloudy">Cloudy</option>
+              <option value="Rainy">Rainy</option>
+              <option value="Windy">Windy</option>
+            </select>
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <label className="flex min-h-12 items-center gap-3 rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700" htmlFor="pumpUsed">
+              <input className="h-5 w-5 rounded border-slate-300 text-emerald-700 focus:ring-emerald-600" type="checkbox" id="pumpUsed" checked={values.pump_used} onChange={update("pump_used")} />
+              Pump used
+            </label>
+            <label className="flex min-h-12 items-center gap-3 rounded-xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700" htmlFor="leakage">
+              <input className="h-5 w-5 rounded border-slate-300 text-emerald-700 focus:ring-emerald-600" type="checkbox" id="leakage" checked={values.leakage} onChange={update("leakage")} />
+              Leakage observed
+            </label>
+          </div>
+        </FormSection>
+
+        <InlineError>{error}</InlineError>
+        <FormActions
+          isSubmitting={isSubmitting}
+          submitLabel="Save irrigation log"
+          whatsappHref="https://wa.me/233505174412?text=Here%20is%20my%20irrigation%20activity%20photo"
+        />
+      </form>
+    </FormPage>
+  );
+}
+
+export default Irrigation;
+
+
+
+
+/*
 import React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -195,3 +386,5 @@ function Irrigation ({ isLoggedIn, setIsLoggedIn }) {
 }; 
 
 export default Irrigation
+
+*/

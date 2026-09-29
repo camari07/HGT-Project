@@ -1,3 +1,83 @@
+
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { createRecord } from "./backend";
+import {
+  FormActions,
+  FormPage,
+  FormSection,
+  InlineError,
+  inputClass,
+  labelClass,
+} from "./FormLayout";
+
+const initialValues = { title: "", problem_type: "", description: "", contact_info: "" };
+
+function Report() {
+  const [values, setValues] = useState(initialValues);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const update = (key) => (event) =>
+    setValues((current) => ({ ...current, [key]: event.target.value }));
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
+    setIsSubmitting(true);
+    try {
+      await createRecord("report", values);
+      setValues(initialValues);
+      toast.success("Report submitted successfully");
+    } catch (requestError) {
+      setError(requestError?.message || "Unable to submit the report.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <FormPage
+      eyebrow="Support"
+      title="Report a farm problem"
+      description="Share enough detail for the agronomy or irrigation team to respond quickly."
+    >
+      <form onSubmit={handleSubmit}>
+        <FormSection title="Problem details" description="Explain what happened, where possible using a short, specific title.">
+          <div>
+            <label className={labelClass} htmlFor="reportTitle">Title</label>
+            <input className={inputClass} id="reportTitle" value={values.title} onChange={update("title")} placeholder="e.g. Low pressure in Zone B" required />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="problemType">Problem type</label>
+            <select className={inputClass} id="problemType" value={values.problem_type} onChange={update("problem_type")} required>
+              <option value="">Select a problem type</option>
+              <option value="Agronomy">Agronomy</option>
+              <option value="Irrigation">Irrigation</option>
+              <option value="Equipment">Equipment</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelClass} htmlFor="reportDescription">Description</label>
+            <textarea className={`${inputClass} min-h-36 resize-y`} id="reportDescription" value={values.description} onChange={update("description")} placeholder="Describe the signs you observed and when they started" required />
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelClass} htmlFor="contactInfo">Contact information</label>
+            <input className={inputClass} id="contactInfo" value={values.contact_info} onChange={update("contact_info")} placeholder="Phone number or email" required />
+          </div>
+        </FormSection>
+        <InlineError>{error}</InlineError>
+        <FormActions isSubmitting={isSubmitting} submitLabel="Submit report" />
+      </form>
+    </FormPage>
+  );
+}
+
+export default Report;
+
+
+/*
 import React from "react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -88,3 +168,5 @@ function Report() {
    };
 
 export default Report;
+
+*/

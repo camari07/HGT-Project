@@ -6,6 +6,109 @@ import farmImg from "../assets/farming.jpg";
 import maintenanceImg from "../assets/farmact.jpeg";
 import images from "../assets/images.jpeg";
 
+const activities = [
+  {
+    title: "Irrigation activity",
+    description: "Record water use, the water source, filtering, and leakage.",
+    actionLabel: "Go to irrigation",
+    to: "/irrigation",
+    image: irrigationImg,
+    alt: "Irrigation equipment watering a cultivated field",
+    buttonStyle: "bg-emerald-700 text-white hover:bg-emerald-800",
+  },
+  {
+    title: "Record farm activity",
+    description: "Add crop, labour, and other operational work to the farm record.",
+    actionLabel: "Go to activities",
+    to: "/farm",
+    image: farmImg,
+    alt: "A farmer working among cultivated crop rows",
+    buttonStyle: "bg-emerald-700 text-white hover:bg-emerald-800",
+  },
+  {
+    title: "Maintenance activity",
+    description: "Log equipment and infrastructure maintenance for the farm.",
+    actionLabel: "Go to maintenance",
+    to: "/maintenance",
+    image: maintenanceImg,
+    alt: "Farm equipment being inspected for maintenance",
+    buttonStyle: "border border-slate-300 bg-white text-slate-800 hover:bg-slate-50",
+  },
+  {
+    title: "Report a problem",
+    description: "Record an equipment or operational issue that needs attention.",
+    actionLabel: "Report a problem",
+    // Change this to /report-problem after adding a dedicated report page.
+    to: "/maintenance",
+    image: maintenanceImg,
+    alt: "A farm worker inspecting an operational issue",
+    buttonStyle: "bg-emerald-700 text-white hover:bg-emerald-800",
+  },
+];
+
+function Home() {
+  return (
+    <section className="px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex items-center gap-4">
+          {/* 
+          <img
+            className="h-14 w-14 shrink-0 rounded-xl border border-slate-200 bg-white object-contain p-1 sm:h-20 sm:w-20"
+            src={logoImg}
+            alt="Holland Greentech"
+          />
+            */}
+          <div className="min-w-0">
+            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
+              Farm operations
+            </p>
+            <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+              Welcome to your dashboard
+            </h1>
+            <p className="mt-2 text-sm leading-6 text-slate-600 sm:text-base">
+              Choose an activity to continue.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {activities.map((activity) => (
+            <article
+              key={activity.title}
+              className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md motion-reduce:transition-none"
+            >
+              <img
+                className="aspect-[4/3] w-full object-cover"
+                src={activity.image}
+                alt={activity.alt}
+              />
+
+              <div className="flex flex-1 flex-col p-5">
+                <h2 className="text-lg font-bold tracking-tight text-slate-950">
+                  {activity.title}
+                </h2>
+                <p className="mt-2 flex-1 text-sm leading-6 text-slate-600">
+                  {activity.description}
+                </p>
+
+                <Link
+                  to={activity.to}
+                  className={`mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-lg px-4 py-2 text-center text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 motion-reduce:transition-none ${activity.buttonStyle}`}
+                >
+                  {activity.actionLabel}
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default Home;
+
+/*
 function Home() {
         return(
          <div className="px-4 py-4 sm:px-6 md:pb-10">  
@@ -51,4 +154,5 @@ function Home() {
             </div>
         </div> 
 )}
-export default Home;
+export default Home; 
+*/

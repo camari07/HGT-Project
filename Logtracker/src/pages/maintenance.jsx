@@ -1,3 +1,83 @@
+import React, { useState } from "react";
+import toast from "react-hot-toast";
+import { createRecord } from "./backend";
+import {
+  FormActions,
+  FormPage,
+  FormSection,
+  InlineError,
+  inputClass,
+  labelClass,
+} from "./FormLayout";
+
+const initialValues = { equipment_name: "", maintenance_type: "", description: "" };
+
+function Maintenance() {
+  const [values, setValues] = useState(initialValues);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const update = (key) => (event) =>
+    setValues((current) => ({ ...current, [key]: event.target.value }));
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setError("");
+    setIsSubmitting(true);
+    try {
+      await createRecord("maintenance", values);
+      setValues(initialValues);
+      toast.success("Maintenance request saved");
+    } catch (requestError) {
+      setError(requestError?.message || "Unable to save the maintenance request.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <FormPage
+      eyebrow="Operations"
+      title="Equipment maintenance"
+      description="Record faults, servicing needs and repairs before they disrupt field work."
+    >
+      <form onSubmit={handleSubmit}>
+        <FormSection title="Request details" description="Describe the equipment and the work it needs.">
+          <div>
+            <label className={labelClass} htmlFor="equipmentName">Equipment name</label>
+            <input className={inputClass} id="equipmentName" value={values.equipment_name} onChange={update("equipment_name")} placeholder="e.g. irrigation pump" required />
+          </div>
+          <div>
+            <label className={labelClass} htmlFor="maintenanceType">Maintenance type</label>
+            <select className={inputClass} id="maintenanceType" value={values.maintenance_type} onChange={update("maintenance_type")} required>
+              <option value="">Select a type</option>
+              <option value="Inspection">Inspection</option>
+              <option value="Preventive service">Preventive service</option>
+              <option value="Repair">Repair</option>
+              <option value="Replacement">Replacement</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div className="sm:col-span-2">
+            <label className={labelClass} htmlFor="maintenanceDescription">Description</label>
+            <textarea className={`${inputClass} min-h-32 resize-y`} id="maintenanceDescription" value={values.description} onChange={update("description")} placeholder="Describe the fault, symptoms or required work" required />
+          </div>
+        </FormSection>
+        <InlineError>{error}</InlineError>
+        <FormActions
+          isSubmitting={isSubmitting}
+          submitLabel="Save request"
+          whatsappHref="https://wa.me/233505174412?text=Here%20is%20my%20maintenance%20photo"
+        />
+      </form>
+    </FormPage>
+  );
+}
+
+export default Maintenance;
+
+
+/*
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -85,4 +165,5 @@ function Maintenance() {
 
 export default Maintenance;
 
+*/
 

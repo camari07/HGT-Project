@@ -10,11 +10,80 @@ import Maintenance from './pages/maintenance'
 import React from "react";
 import Irrigation from './pages/irrigation'
 import Report from './pages/report'
-import ProtectedRoute from './components/protectroute'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+//import ProtectedRoute from './components/protectroute'
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
+
 
 import './App.css'
 
+function ProtectedRoute({ isLoggedIn, children }) {
+  return isLoggedIn? <Outlet /> : <Navigate to="/login" replace />;
+}
+
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(() =>
+    Boolean(localStorage.getItem("token"))
+  );
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          element={
+            <Layout
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+            />
+          }
+        >
+          <Route
+            index
+            element={
+              <Navigate to={isLoggedIn ? "/home" : "/login"} replace />
+            }
+          />
+
+          <Route path="about" element={<About />} />
+          <Route
+            path="login"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <Login setIsLoggedIn={setIsLoggedIn} />
+              )
+            }
+          />
+          <Route path="signup" element={<Signup />} />
+
+          <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
+            <Route path="home" element={<Home />} />
+            <Route
+              path="irrigation"
+              element={<Irrigation setIsLoggedIn={setIsLoggedIn} />}
+            />
+            <Route path="farm" element={<FarmActivity />} />
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="maintenance" element={<Maintenance />} />
+          </Route>
+
+          {/* <Route path="*" element={<NotFound isLoggedIn={isLoggedIn} />} /> */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+
+/*
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
@@ -75,3 +144,5 @@ function App() {
 }
 
 export default App
+
+*/
