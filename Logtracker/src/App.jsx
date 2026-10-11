@@ -4,8 +4,8 @@ import Home from './pages/home'
 import About from './pages/about'
 import Login from './pages/login'
 import Signup from './pages/signup'
-import ForgotPassword from "./forgotpassword";
-import ResetPassword from "./resetpassword";
+import ForgotPassword from './pages/forgotpassword';
+import ResetPassword from './pages/resetpassword';
 import FarmActivity from './pages/farmact'
 import ProfilePage from './pages/profile'
 import Maintenance from './pages/maintenance'
