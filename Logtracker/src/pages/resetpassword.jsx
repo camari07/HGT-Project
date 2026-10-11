@@ -50,9 +50,7 @@ function ResetPassword() {
   return (
     <main className="grid min-h-[100dvh] place-items-center bg-slate-50 px-4 py-10 sm:px-6">
       <section className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
-        <span className="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold capitalize text-emerald-800">
-          {activeBackend} authentication
-        </span>
+        ;
 
         <h1 className="mt-5 text-3xl font-bold tracking-tight text-slate-950">
           Choose a new password
