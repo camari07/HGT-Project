@@ -18,7 +18,7 @@ const resources = {
   irrigation: {
     table: "irrigation_logs",
     djangoPath: "/api/irrigation/",
-    // The original Django serializer did not receive this field.
+
     djangoOmit: ["fertilizer_used"],
   },
   maintenance: {
@@ -176,6 +176,48 @@ export async function createRecord(resourceName, values) {
   });
 }
 
+export async function requestPasswordReset(email) {
+  if (activeBackend === "supabase") {
+    const supabase = getSupabase();
+    const redirectTo = `${window.location.origin}/reset-password`;
+
+    const { error } = await supabase.auth.resetPasswordForEmail(
+      email.trim(),
+      { redirectTo }
+    );
+
+    if (error) throw error;
+    return;
+  }
+
+  return djangoRequest("/password-reset/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: email.trim() }),
+  });
+}
+
+export async function updatePassword({ password, uid, token }) {
+  if (activeBackend === "supabase") {
+    const supabase = getSupabase();
+    const { error } = await supabase.auth.updateUser({ password });
+
+    if (error) throw error;
+    return;
+  }
+
+  return djangoRequest("/password-reset/confirm/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      uid,
+      token,
+      new_password: password,
+    }),
+  });
+}
+
+
 export async function signOut() {
   if (activeBackend === "supabase") {
     const { error } = await getSupabase().auth.signOut();
@@ -214,7 +256,7 @@ export async function getProfile() {
  
 export async function updateProfile({ first_name, last_name, username }) {
   const supabase = getSupabase();
-  // Name and username live in user metadata, the same place signUp stores them.
+
   const { data, error } = await supabase.auth.updateUser({
     data: { first_name, last_name, username },
   });

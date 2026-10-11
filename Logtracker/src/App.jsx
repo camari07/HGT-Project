@@ -4,6 +4,8 @@ import Home from './pages/home'
 import About from './pages/about'
 import Login from './pages/login'
 import Signup from './pages/signup'
+import ForgotPassword from "./forgotpassword";
+import ResetPassword from "./resetpassword";
 import FarmActivity from './pages/farmact'
 import ProfilePage from './pages/profile'
 import Maintenance from './pages/maintenance'
@@ -48,7 +50,8 @@ function App() {
               <Navigate to={isLoggedIn ? "/home" : "/login"} replace />
             }
           />
-
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />    
           <Route path="about" element={<About />} />
           <Route
             path="login"
@@ -71,6 +74,7 @@ function App() {
             <Route path="farm" element={<FarmActivity />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="maintenance" element={<Maintenance />} />
+
           </Route>
 
           {/* <Route path="*" element={<NotFound isLoggedIn={isLoggedIn} />} /> */}

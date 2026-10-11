@@ -96,6 +96,12 @@ function Login({ setIsLoggedIn }) {
                 placeholder="Enter your password"
                 required
               />
+              <Link
+                to="/forgot-password"
+                className="text-sm font-semibold text-emerald-800 hover:underline"
+                >
+                Forgot password?
+                </Link>
             </div>
 
             <InlineError>{error}</InlineError>

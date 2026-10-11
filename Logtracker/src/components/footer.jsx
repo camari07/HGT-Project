@@ -9,7 +9,7 @@ function Footer({ isLoggedIn, setIsLoggedIn }) {
     <footer className="mt-auto border-t border-slate-700 bg-slate-950 text-white">
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-4 py-6 sm:flex-row sm:justify-between sm:px-6 lg:px-8">
         <p className="text-center text-sm text-slate-300 sm:text-left">
-          © {new Date().getFullYear()} Holland Greentech. All rights reserved.
+          © {new Date().getFullYear()} Holland Greentech. All rights reserved. HGT 0551114940
         </p>
 
         {isLoggedIn && (

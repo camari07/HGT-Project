@@ -70,9 +70,7 @@ function Header({ isLoggedIn, setIsLoggedIn }) {
             <span className="block truncate text-sm font-bold tracking-wide sm:text-base">
               Holland Greentech
             </span>
-            <span className="hidden text-xs text-emerald-200/80 sm:block">
-              Farm operations
-            </span>
+            
           </span>
         </Link>
 
